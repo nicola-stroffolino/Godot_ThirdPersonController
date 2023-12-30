@@ -9,7 +9,12 @@ public partial class Run : State {
 	}
 	
 	public override void StateProcess(float delta) {
-		if (Actor.StateMachine.PreviousState is Jump j && j.JumpQueued) {
+		if (!Actor.IsOnFloor() && Actor.StateMachine.PreviousState is not Jump) {
+			EmitSignal(SignalName.Transitioned, this, "airborne");
+			return;
+		}
+
+		if (Actor.StateMachine.PreviousState is Airborne j && j.JumpQueued) {
 			EmitSignal(SignalName.Transitioned, this, "jump");
 			return;
 		} 

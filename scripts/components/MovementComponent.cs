@@ -144,8 +144,6 @@ public partial class MovementComponent : Node {
 	}
 
 	public override void _PhysicsProcess(double delta) {
-		if (!Actor.IsOnFloor()) Velocity.Y -= (float)(Gravity * delta);
-
 		Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
 		Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
 
@@ -160,7 +158,7 @@ public partial class MovementComponent : Node {
 		// Rotating the Model is not a duty of the movement component
 		if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
 		Actor.Model.Rotation = new() {
-			Y = (float)Mathf.DegToRad(Mathf.Wrap(Mathf.RadToDeg(Mathf.LerpAngle(Actor.Model.Rotation.Y, LookingRotation, 0.02)), -180, 180.0))
+			Y = (float)Mathf.DegToRad(Mathf.Wrap(Mathf.RadToDeg(Mathf.LerpAngle(Actor.Model.Rotation.Y, LookingRotation, 0.2)), -180, 180.0))
 		};
 	}
 
