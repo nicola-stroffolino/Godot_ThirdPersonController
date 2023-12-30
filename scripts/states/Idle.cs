@@ -10,7 +10,6 @@ public partial class Idle : State {
 
 	public override void StateProcess(float delta) {
 		if (Actor.StateMachine.PreviousState is Jump j && j.JumpQueued) {
-			// GD.Print("comencing new jump");
 			EmitSignal(SignalName.Transitioned, this, "jump");
 			return;
 		}

@@ -9,7 +9,6 @@ public partial class Jump : State {
 	public override void Enter() {	
 		GD.Print("jump");	
 		Actor.MovementComponent.SetVelocity('y', Actor.MovementComponent.JumpSpeed);
-		if (Actor.MovementComponent.GetVelocity().Y == 0) GD.Print("che cazzo sta succedendo");
 		if (JumpQueued) {
 			JumpBufferCounter = 0;
 			JumpQueued = false;
@@ -17,7 +16,11 @@ public partial class Jump : State {
 	}
 
     public override void Exit() {
-        Actor.MovementComponent.SetVelocity('y', 0);
+		GD.Print(Actor.MovementComponent.GetVelocity().Y);
+        // if (Actor.MovementComponent.GetVelocity().Y <= 0) {
+		// 	GD.Print("velocity resetted");
+			Actor.MovementComponent.SetVelocity('y', 0);
+		// }
     }
 
     public override void StateProcess(float delta) {
@@ -36,7 +39,7 @@ public partial class Jump : State {
 			}
 		}
 
-		if (Actor.IsOnFloor()) {
+		if (Actor.IsOnFloor() && Actor.MovementComponent.GetVelocity().Y < 0) {
 			if (Actor.MovementComponent.Direction == Vector3.Zero) {
 				EmitSignal(SignalName.Transitioned, this, "idle");
 				return;

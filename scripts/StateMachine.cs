@@ -45,9 +45,9 @@ public partial class StateMachine : Node {
 		if (newState == null) return;
 
 		CurrentState?.Exit();
-		newState.Enter();
-
 		PreviousState = CurrentState;
+		
+		newState.Enter();
 		CurrentState = newState;
 	}
 }

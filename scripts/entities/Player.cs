@@ -27,6 +27,6 @@ public partial class Player : CharacterBody3D {
 		InputDirection.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
 		InputDirection.Z = Input.GetActionStrength("move_backward") - Input.GetActionStrength("move_forward");
 
-		MovementComponent.SetDirection(InputDirection);	
+		MovementComponent.SetDirection(InputDirection);
 	}
 }

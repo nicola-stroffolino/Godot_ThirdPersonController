@@ -122,7 +122,6 @@ public partial class MovementComponent : Node {
 	public int ActualSpeed { get; set; }
 	public float Gravity { get; set; }
 	public float JumpSpeed { get; set; }
-	public float AngularAcceleration { get; set; } = 7;
 	public Vector3 Direction { get; set; } = Vector3.Zero;
 	private Vector3 MoveDirection = Vector3.Zero;
 	private Vector3 Velocity = Vector3.Zero;
@@ -161,7 +160,7 @@ public partial class MovementComponent : Node {
 		// Rotating the Model is not a duty of the movement component
 		if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
 		Actor.Model.Rotation = new() {
-			Y = (float)Mathf.DegToRad(Mathf.Wrap(Mathf.RadToDeg(Mathf.LerpAngle(Actor.Model.Rotation.Y, LookingRotation, 0.2)), -180, 180.0))
+			Y = (float)Mathf.DegToRad(Mathf.Wrap(Mathf.RadToDeg(Mathf.LerpAngle(Actor.Model.Rotation.Y, LookingRotation, 0.02)), -180, 180.0))
 		};
 	}
 
