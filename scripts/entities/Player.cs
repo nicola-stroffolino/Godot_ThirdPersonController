@@ -21,6 +21,10 @@ public partial class Player : CharacterBody3D {
 	public CameraComponent CameraComponent { get; private set; }
 	[Export]
 	public StateMachine StateMachine { get; private set; }
+	[Export]
+	public AnimationTree AnimationTree { get; private set; }
+	[Export]
+	public AnimationPlayer AnimationPlayer { get; private set; }
 
 	public override void _Process(double delta) {
 		var InputDirection = Vector3.Zero;
