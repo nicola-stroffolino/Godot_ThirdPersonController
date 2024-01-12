@@ -144,10 +144,12 @@ public partial class MovementComponent : Node {
 	}
 
 	public override void _PhysicsProcess(double delta) {
-		Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
-		Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
+		// Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
+		// Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
 
+		Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float) delta);
 		Actor.Velocity = Velocity;
+		// Actor.Velocity = v;
 		Actor.MoveAndSlide();
 	}
 
@@ -169,4 +171,6 @@ public partial class MovementComponent : Node {
 	}
 
 	public Vector3 GetVelocity() => Velocity;
+
+	public Vector3 DivideVector3ByVelocity(Vector3 v, float d) => new(v.X / d, Velocity.Y, v.Z / d);
 }
