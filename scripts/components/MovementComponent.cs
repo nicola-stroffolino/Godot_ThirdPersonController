@@ -147,7 +147,7 @@ public partial class MovementComponent : Node {
 		// Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
 		// Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
 
-		Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float) delta);
+		Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 		Actor.Velocity = Velocity;
 		// Actor.Velocity = v;
 		Actor.MoveAndSlide();
