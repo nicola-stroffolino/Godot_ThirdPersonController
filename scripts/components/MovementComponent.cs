@@ -132,6 +132,7 @@ public partial class MovementComponent : Node {
 		JumpSpeed = Gravity * Actor.TimeToJumpPeak; //m/s
 
 		LookingRotation = Actor.CameraComponent.HCamRotation;
+		Actor.AnimationPlayer.Play("front_walking");
 	}
 
 	public override void _Process(double delta) {
@@ -147,7 +148,7 @@ public partial class MovementComponent : Node {
 		// Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
 		// Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
 
-		Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+		Velocity = DivideVector3ByVelocity(Actor.AnimationPlayer.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 		Actor.Velocity = Velocity;
 		// Actor.Velocity = v;
 		Actor.MoveAndSlide();
