@@ -11,25 +11,25 @@ public partial class Skeleton : Skeleton3D {
 	[Export]
 	public MeshInstance3D Mesh2 { get; set; }
 
-	public override void _Process(double delta) {
+	public float StartingHeight { get; set; }
+	public float StartingY { get; set; }
+	public MeshInstance3D CollisionMesh { get; set; }
+
+    public override void _Ready() {
+		StartingHeight = (CollisionBox.Shape as CylinderShape3D).Height;
+		StartingY = CollisionBox.Position.Y;
+		
+		CollisionMesh = CollisionBox.GetNode<MeshInstance3D>("MeshInstance3D");
+    }
+
+    public override void _Process(double delta) {
 		var lf = GetBoneGlobalPose(59); // 59 - left foot
 		var rf = GetBoneGlobalPose(64); // 64 - right foot
 		var root = GetBoneGlobalPose(0);
+
+		(CollisionBox.Shape as CylinderShape3D).Height = StartingHeight - Math.Min(lf.Origin.Y, rf.Origin.Y);
 		
-		// Mesh.Position = GetBoneGlobalPose(59).Origin.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
-		// Mesh2.Position = GetBoneGlobalPose(64).Origin.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 
-		Mesh.Position = GetBoneGlobalPose(59).Origin.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
-		Mesh.Position = new() {
-			X = root.Origin.X,
-			Y = Math.Min(lf.Origin.Y, rf.Origin.Y),
-			Z = root.Origin.Z
-		};
-
-		CollisionBox.Position = new() {
-			X = CollisionBox.Position.X,
-			Y = 10,
-			Z = CollisionBox.Position.Z
-		};
+		(CollisionMesh.Mesh as CylinderMesh).Height =  StartingHeight - Math.Min(lf.Origin.Y, rf.Origin.Y);
 	}
 }
