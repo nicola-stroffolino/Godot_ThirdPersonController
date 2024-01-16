@@ -24,6 +24,7 @@ public partial class Skeleton : Skeleton3D {
 
 	public override void _Process(double delta) {
 		StartingY = CollisionBox.GlobalPosition.Y;
+		var tmp = StartingY;
 
 		var lf = GetBoneGlobalPose(59); // 59 - left foot
 		var rf = GetBoneGlobalPose(64); // 64 - right foot
@@ -34,9 +35,11 @@ public partial class Skeleton : Skeleton3D {
 		
 		CollisionBox.GlobalPosition = new() {
 			X = CollisionBox.GlobalPosition.X,
-			Y = StartingY + Math.Min(lf.Origin.Y, rf.Origin.Y),
+			Y = tmp + Math.Min(lf.Origin.Y, rf.Origin.Y),
 			Z = CollisionBox.GlobalPosition.Z
 		};
+
+		StartingY = tmp;
 		// GD.Print(CollisionBox.Position.Y);
 
 		// CollisionMesh.GlobalPosition = new() {
