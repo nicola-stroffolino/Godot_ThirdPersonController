@@ -133,7 +133,7 @@ public partial class MovementComponent : Node {
 
 		LookingRotation = Actor.CameraComponent.HCamRotation;
 		Actor.AnimationPlayer.Play("player_animations_root/front_walking");
-		// Actor.AnimationPlayer.SpeedScale = 0.2f;
+		Actor.AnimationPlayer.SpeedScale = 0.5f;
 	}
 
 	public override void _Process(double delta) {
