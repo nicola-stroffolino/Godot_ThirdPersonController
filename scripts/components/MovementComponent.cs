@@ -143,13 +143,14 @@ public partial class MovementComponent : Node {
 
 			Target Look: {LookingRotation}
 		";
+
+		Velocity = DivideVector3ByVelocity(Actor.AnimationPlayer.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 	}
 
 	public override void _PhysicsProcess(double delta) {
 		// Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
 		// Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
-
-		Velocity = DivideVector3ByVelocity(Actor.AnimationPlayer.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+		
 		Actor.Velocity = Velocity;
 		// Actor.Velocity = v;
 		Actor.MoveAndSlide();

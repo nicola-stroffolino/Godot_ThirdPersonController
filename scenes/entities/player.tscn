@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://irt40o1iuj3"]
+[gd_scene load_steps=51 format=3 uid="uid://irt40o1iuj3"]
 
 [ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_dglea"]
 [ext_resource type="PackedScene" uid="uid://d0uq8r4ct8esh" path="res://scenes/components/movement_component.tscn" id="2_20tmq"]
@@ -13,9 +13,45 @@
 [ext_resource type="Script" path="res://scripts/states/Jump.cs" id="9_lhsns"]
 [ext_resource type="Script" path="res://scripts/states/Airborne.cs" id="10_vo1o2"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qaf7j"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0pf50"]
 radius = 0.1
-height = 0.5
+height = 0.55
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nykfh"]
+radius = 0.1
+height = 0.55
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nm4dw"]
+radius = 0.07
+height = 0.55
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7sdok"]
+radius = 0.07
+height = 0.55
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_52p88"]
+radius = 0.15
+height = 0.35
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fp7na"]
+radius = 0.15
+height = 0.35
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_akkb3"]
+radius = 0.12
+height = 0.3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dx7dj"]
+radius = 0.12
+height = 0.3
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ayfg8"]
+radius = 0.14
+height = 0.3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jewfq"]
+radius = 0.14
+height = 0.3
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dlao2"]
 animation = &"Y Bot"
@@ -158,6 +194,7 @@ bottom_radius = 0.15
 height = 1.8
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Model", "MovementComponent", "CameraComponent", "StateMachine", "AnimationTree", "AnimationPlayer")]
+collision_layer = 2
 script = ExtResource("1_dglea")
 Model = NodePath("Model")
 MovementComponent = NodePath("MovementComponent")
@@ -168,7 +205,8 @@ AnimationPlayer = NodePath("Model/AnimationPlayer")
 
 [node name="Model" parent="." instance=ExtResource("2_wn0w1")]
 
-[node name="Skeleton3D" parent="Model/Armature" index="0" node_paths=PackedStringArray("Actor", "CollisionBox", "Mesh", "Mesh2")]
+[node name="Skeleton3D" parent="Model/Armature" index="0" node_paths=PackedStringArray("Actor", "CollisionBox")]
+bones/3/rotation = Quaternion(0.000474975, 0.000474975, 0.000474975, 1.00048)
 bones/4/scale = Vector3(1, 1, 1)
 bones/8/rotation = Quaternion(-0.453869, -0.544821, 0.551167, -0.439759)
 bones/8/scale = Vector3(1, 1, 1)
@@ -213,8 +251,12 @@ bones/64/scale = Vector3(1, 1, 1)
 script = ExtResource("3_6fpt4")
 Actor = NodePath("../../..")
 CollisionBox = NodePath("../../../CollisionShape3D")
-Mesh = NodePath("")
-Mesh2 = NodePath("")
+
+[node name="Alpha_Joints" parent="Model/Armature/Skeleton3D" index="0"]
+visible = false
+
+[node name="Alpha_Surface" parent="Model/Armature/Skeleton3D" index="1"]
+visible = false
 
 [node name="AnimationPlayer" parent="Model" index="1"]
 root_motion_track = NodePath("Armature/Skeleton3D:mixamorig_Root")
@@ -229,26 +271,138 @@ zero_y = false
 [node name="BoneAttachments" type="Node3D" parent="."]
 
 [node name="LeftUpLegAttach" type="BoneAttachment3D" parent="BoneAttachments"]
-transform = Transform3D(-0.999982, 0.00602691, 7.67131e-05, -0.00602739, -0.999901, -0.0126792, 2.89013e-07, -0.0126795, 0.99992, 0.0912445, 0.931355, -0.000553383)
+transform = Transform3D(-0.999982, 0.00602691, 7.67131e-05, -0.0060274, -0.999901, -0.0126792, 2.89068e-07, -0.0126795, 0.99992, 0.0912445, 0.931355, -0.000553383)
 bone_name = "mixamorig_LeftUpLeg"
 bone_idx = 56
 use_external_skeleton = true
 external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
 
 [node name="Area3D" type="Area3D" parent="BoneAttachments/LeftUpLegAttach"]
-transform = Transform3D(1, 9.92048e-10, -1.27898e-12, -8.70517e-10, 1, -4.65661e-09, -1.48646e-11, -9.31323e-10, 1, 0.00127748, 0.211926, 0.00268732)
+collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BoneAttachments/LeftUpLegAttach/Area3D"]
-shape = SubResource("CapsuleShape3D_qaf7j")
+transform = Transform3D(1, -9.33446e-09, -1.68086e-10, 4.636e-09, 1, -1.76951e-08, 8.69704e-12, 8.3819e-09, 1, 0.00398567, 0.204517, 0.00259618)
+shape = SubResource("CapsuleShape3D_0pf50")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoneAttachments/LeftUpLegAttach/Area3D/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_nykfh")
 
 [node name="RightUpLegAttach" type="BoneAttachment3D" parent="BoneAttachments"]
-transform = Transform3D(-0.999982, -0.0060267, -7.68981e-05, 0.00602719, -0.999902, -0.0126671, -5.49842e-07, -0.0126673, 0.99992, -0.0912446, 0.931355, -0.000553388)
+transform = Transform3D(-0.999982, -0.0060267, -7.68981e-05, 0.00602719, -0.999902, -0.0126671, -5.49736e-07, -0.0126673, 0.99992, -0.0912446, 0.931355, -0.000553388)
 bone_name = "mixamorig_RightUpLeg"
 bone_idx = 61
 use_external_skeleton = true
 external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
 
-[node name="BoneAttachment3D3" type="BoneAttachment3D" parent="BoneAttachments"]
+[node name="Area3D" type="Area3D" parent="BoneAttachments/RightUpLegAttach"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoneAttachments/RightUpLegAttach/Area3D"]
+transform = Transform3D(1, -9.33446e-09, -1.68086e-10, 4.636e-09, 1, -1.76951e-08, 8.69704e-12, 8.3819e-09, 1, 0.00398567, 0.204517, 0.00259618)
+shape = SubResource("CapsuleShape3D_0pf50")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoneAttachments/RightUpLegAttach/Area3D/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_nykfh")
+
+[node name="LeftLowLegAttach" type="BoneAttachment3D" parent="BoneAttachments"]
+transform = Transform3D(-0.999983, -0.00581156, -0.000284873, 0.00581854, -0.998785, -0.0489302, -1.6595e-07, -0.0489311, 0.998802, 0.0936914, 0.525401, -0.00570117)
+bone_name = "mixamorig_LeftLeg"
+bone_idx = 57
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="Area3D" type="Area3D" parent="BoneAttachments/LeftLowLegAttach"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoneAttachments/LeftLowLegAttach/Area3D"]
+transform = Transform3D(1, -9.33446e-09, -1.68086e-10, 4.636e-09, 1, -1.76951e-08, 8.69704e-12, 8.3819e-09, 1, 0.00398567, 0.204517, 0.00259618)
+shape = SubResource("CapsuleShape3D_nm4dw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoneAttachments/LeftLowLegAttach/Area3D/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_7sdok")
+
+[node name="RightLowLegAttach" type="BoneAttachment3D" parent="BoneAttachments"]
+transform = Transform3D(-0.999983, 0.00581177, 0.000284997, -0.00581875, -0.998785, -0.0489441, 1.98866e-07, -0.0489449, 0.998802, -0.0936914, 0.525401, -0.00569625)
+bone_name = "mixamorig_RightLeg"
+bone_idx = 62
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="Area3D" type="Area3D" parent="BoneAttachments/RightLowLegAttach"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoneAttachments/RightLowLegAttach/Area3D"]
+transform = Transform3D(1, -9.33446e-09, -1.68086e-10, 4.636e-09, 1, -1.76951e-08, 8.69704e-12, 8.3819e-09, 1, 0.00398567, 0.204517, 0.00259618)
+shape = SubResource("CapsuleShape3D_nm4dw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoneAttachments/RightLowLegAttach/Area3D/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_7sdok")
+
+[node name="TorseAttach" type="BoneAttachment3D" parent="BoneAttachments"]
+transform = Transform3D(0.999999, -0.000939581, 0.00105519, 0.000934189, 0.999987, 0.00509877, -0.00105997, -0.00509778, 0.999986, -0.000152831, 1.34722, -0.0426865)
+bone_name = "mixamorig_Spine2"
+bone_idx = 4
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="Area3D" type="Area3D" parent="BoneAttachments/TorseAttach"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoneAttachments/TorseAttach/Area3D"]
+shape = SubResource("CapsuleShape3D_52p88")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoneAttachments/TorseAttach/Area3D/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_fp7na")
+
+[node name="SpineUpAttach" type="BoneAttachment3D" parent="BoneAttachments"]
+transform = Transform3D(0.999999, -0.0010481, 0.000935887, 0.000927908, 0.992738, 0.120294, -0.00105517, -0.120293, 0.992738, -1.17686e-05, 1.21361, -0.0264964)
+bone_name = "mixamorig_Spine1"
+bone_idx = 3
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="Area3D" type="Area3D" parent="BoneAttachments/SpineUpAttach"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoneAttachments/SpineUpAttach/Area3D"]
+shape = SubResource("CapsuleShape3D_akkb3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoneAttachments/SpineUpAttach/Area3D/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_dx7dj")
+
+[node name="SpineBaseAttach" type="BoneAttachment3D" parent="BoneAttachments"]
+transform = Transform3D(1, -9.90402e-05, -1.41554e-05, 0.000100026, 0.992624, 0.121236, 2.04372e-06, -0.121236, 0.992624, -1.49259e-07, 1.09715, -0.012273)
+bone_name = "mixamorig_Spine"
+bone_idx = 2
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="Area3D" type="Area3D" parent="BoneAttachments/SpineBaseAttach"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoneAttachments/SpineBaseAttach/Area3D"]
+transform = Transform3D(1, 1.63141e-11, 1.59162e-12, 1.76215e-12, 1, 0, 6.82121e-13, 0, 1, -3.83894e-06, -0.0380964, -0.00465298)
+shape = SubResource("CapsuleShape3D_ayfg8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoneAttachments/SpineBaseAttach/Area3D/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_jewfq")
+
+[node name="LeftUpperArmAttach" type="BoneAttachment3D" parent="BoneAttachments"]
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="LeftForeArmAttach" type="BoneAttachment3D" parent="BoneAttachments"]
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="RightUpperArmAttach" type="BoneAttachment3D" parent="BoneAttachments"]
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="RightUpperArmAttach2" type="BoneAttachment3D" parent="BoneAttachments"]
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="BoneAttachment3D12" type="BoneAttachment3D" parent="BoneAttachments"]
+use_external_skeleton = true
+external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
+
+[node name="BoneAttachment3D13" type="BoneAttachment3D" parent="BoneAttachments"]
 use_external_skeleton = true
 external_skeleton = NodePath("../../Model/Armature/Skeleton3D")
 
@@ -276,6 +430,7 @@ parameters/locked_walk_or_run/blend_amount = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 3.25963e-09, 0, -9.31323e-10, 1, 7.45058e-09, 0, 0, 1, 0, 0.898, 0)
+visible = false
 shape = SubResource("CylinderShape3D_s8fsq")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
