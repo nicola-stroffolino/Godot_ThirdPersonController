@@ -132,7 +132,6 @@ public partial class MovementComponent : Node {
 		JumpSpeed = Gravity * Actor.TimeToJumpPeak; //m/s
 
 		LookingRotation = Actor.CameraComponent.HCamRotation;
-		// Actor.AnimationPlayer.Play("player_animations_root/front_walking");
 		// Actor.AnimationPlayer.SpeedScale = 0.2f;
 	}
 
