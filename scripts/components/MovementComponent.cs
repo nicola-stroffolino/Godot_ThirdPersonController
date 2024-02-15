@@ -158,7 +158,7 @@ public partial class MovementComponent : Node {
 		Direction = direction;
 		MoveDirection = Direction.Rotated(Vector3.Up, Actor.CameraComponent.GetHRot()).Normalized();
 
-		// Rotating the Model is not a duty of the movement component
+		// Rotating the Model is not a duty of the movement component, i'll keep it here for now
 		if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
 		Actor.Model.Rotation = new() {
 			Y = (float)Mathf.DegToRad(Mathf.Wrap(Mathf.RadToDeg(Mathf.LerpAngle(Actor.Model.Rotation.Y, LookingRotation, 0.2)), -180, 180.0))
@@ -173,5 +173,5 @@ public partial class MovementComponent : Node {
 
 	public Vector3 GetVelocity() => Velocity;
 
-	public Vector3 DivideVector3ByVelocity(Vector3 v, float d) => new(v.X / d, Velocity.Y, v.Z / d);
+	public Vector3 DivideVector3ByVelocity(Vector3 v, float d) => new(v.X / d, v.Y / d, v.Z / d);
 }
