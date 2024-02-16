@@ -143,7 +143,10 @@ public partial class MovementComponent : Node {
 			Target Look: {LookingRotation}
 		";
 
-		Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+		//if (Actor.StateMachine.CurrentState is not Airborne) 
+			Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+		//else 
+			//Velocity = new Vector3(Actor.AnimationTree.GetRootMotionPosition().X / (float)delta, Actor.AnimationTree.GetRootMotionPosition().Y, Actor.AnimationTree.GetRootMotionPosition().Z / (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 	}
 
 	public override void _PhysicsProcess(double delta) {

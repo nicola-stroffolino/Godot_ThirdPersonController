@@ -19,7 +19,7 @@ public partial class Airborne : State {
 	}
 
 	public override void StatePhysicsProcess(float delta) {
-		Actor.MovementComponent.SetVelocity('y', Actor.MovementComponent.GetVelocity().Y - (float)(Actor.MovementComponent.Gravity * delta));
+		//Actor.MovementComponent.SetVelocity('y', Actor.MovementComponent.GetVelocity().Y - (float)(Actor.MovementComponent.Gravity * delta));
 	}
 
 	public override void StateProcess(float delta) {
