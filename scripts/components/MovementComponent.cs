@@ -125,6 +125,7 @@ public partial class MovementComponent : Node {
 	public Vector3 Direction { get; set; } = Vector3.Zero;
 	private Vector3 MoveDirection = Vector3.Zero;
 	private Vector3 Velocity = Vector3.Zero;
+	private Vector3 GravityVector = Vector3.Zero;
 	private float LookingRotation;
 
 	public override void _Ready() {
@@ -144,7 +145,7 @@ public partial class MovementComponent : Node {
 		";
 
 		//if (Actor.StateMachine.CurrentState is not Airborne) 
-			Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+			// Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 		//else 
 			//Velocity = new Vector3(Actor.AnimationTree.GetRootMotionPosition().X / (float)delta, Actor.AnimationTree.GetRootMotionPosition().Y, Actor.AnimationTree.GetRootMotionPosition().Z / (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 	}
@@ -152,6 +153,11 @@ public partial class MovementComponent : Node {
 	public override void _PhysicsProcess(double delta) {
 		// Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
 		// Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
+
+		Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+		// if (Actor.IsOnFloor()) GravityVector = Vector3.Zero;
+		// else GravityVector = new Vector3(0, (float)(-Gravity * delta), 0);
+		// Velocity += GravityVector;
 		
 		Actor.Velocity = Velocity;
 		Actor.MoveAndSlide();
@@ -176,5 +182,5 @@ public partial class MovementComponent : Node {
 
 	public Vector3 GetVelocity() => Velocity;
 
-	public Vector3 DivideVector3ByVelocity(Vector3 v, float d) => new(v.X / d, v.Y / d, v.Z / d);
+	public Vector3 DivideVector3ByVelocity(Vector3 v, float d) => new(v.X / d, Velocity.Y, v.Z / d);
 }
