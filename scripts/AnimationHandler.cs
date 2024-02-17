@@ -27,7 +27,8 @@ public partial class AnimationHandler : AnimationTree {
 				// }
 
 				// Actor.AnimationTree.Set("parameters/jump_time_scale/scale", animationLength / (Actor.TimeToJumpPeak * 2));
-				Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+				
+				// Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
 				break;
 			case Idle:
 				Set("parameters/free_walk_or_run/blend_amount", -1);

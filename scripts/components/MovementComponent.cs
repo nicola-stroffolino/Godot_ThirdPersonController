@@ -133,7 +133,6 @@ public partial class MovementComponent : Node {
 		JumpSpeed = Gravity * Actor.TimeToJumpPeak; //m/s
 
 		LookingRotation = Actor.CameraComponent.HCamRotation;
-		// Actor.AnimationPlayer.SpeedScale = 0.2f;
 	}
 
 	public override void _Process(double delta) {
@@ -143,21 +142,25 @@ public partial class MovementComponent : Node {
 
 			Target Look: {LookingRotation}
 		";
-
-		//if (Actor.StateMachine.CurrentState is not Airborne) 
-			// Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
-		//else 
-			//Velocity = new Vector3(Actor.AnimationTree.GetRootMotionPosition().X / (float)delta, Actor.AnimationTree.GetRootMotionPosition().Y, Actor.AnimationTree.GetRootMotionPosition().Z / (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 	}
 
 	public override void _PhysicsProcess(double delta) {
 		// Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
 		// Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
 
-		Velocity = DivideVector3ByVelocity(Actor.AnimationTree.GetRootMotionPosition(), (float)delta).Rotated(Vector3.Up, Actor.Model.Rotation.Y);
-		// if (Actor.IsOnFloor()) GravityVector = Vector3.Zero;
-		// else GravityVector = new Vector3(0, (float)(-Gravity * delta), 0);
-		// Velocity += GravityVector;
+		if (GetProcessDeltaTime() != 0) {
+			var rootMotion = Actor.AnimationTree.GetRootMotionPosition();
+
+			Velocity = new Vector3 {
+				X = (float)(rootMotion.X / GetProcessDeltaTime()),
+				Y = Velocity.Y,
+				Z = (float)(rootMotion.Z / GetProcessDeltaTime()),
+			}.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+
+			Actor.Model.Position = new Vector3 {
+				Y = Actor.AnimationTree.GetRootMotionPositionAccumulator().Y
+			};
+		}
 		
 		Actor.Velocity = Velocity;
 		Actor.MoveAndSlide();

@@ -16,9 +16,11 @@ public partial class Player : CharacterBody3D {
 	[Export]
 	public Node3D Model { get; private set; }
 	[Export]
+	public CollisionShape3D CollisionShape { get; private set; }
+	[Export]
 	public MovementComponent MovementComponent { get; private set; }
 	[Export]
-	public CameraComponent CameraComponent { get; private set; }
+	public CameraComponent CameraComponent { get; private set; }	
 	[Export]
 	public StateMachine StateMachine { get; private set; }
 	[Export]
