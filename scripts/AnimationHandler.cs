@@ -31,13 +31,13 @@ public partial class AnimationHandler : AnimationTree {
 				// Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
 				break;
 			case Idle:
-				Set("parameters/free_walk_or_run/blend_amount", -1);
+				// Set("parameters/free_walk_or_run/blend_amount", -1);
 				break;
 			case Walk:
-				Set("parameters/free_walk_or_run/blend_amount", 0);
+				// Set("parameters/free_walk_or_run/blend_amount", 0);
 				break;
 			case Run:
-				Set("parameters/free_walk_or_run/blend_amount", 1);
+				// Set("parameters/free_walk_or_run/blend_amount", 1);
 				break;
 			default:
 				break;

@@ -186,4 +186,8 @@ public partial class MovementComponent : Node {
 	public Vector3 GetVelocity() => Velocity;
 
 	public Vector3 DivideVector3ByVelocity(Vector3 v, float d) => new(v.X / d, Velocity.Y, v.Z / d);
+
+	public void ActuallyJump() {
+		SetVelocity('y', JumpSpeed);
+	}
 }

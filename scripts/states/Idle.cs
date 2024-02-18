@@ -6,6 +6,8 @@ public partial class Idle : State {
 	public override void Enter() {
 		GD.Print("idle");
 		Actor.MovementComponent.ActualSpeed = 0;
+
+		Actor.AnimationTree.Set("parameters/free_walk_or_run/blend_amount", -1);
 	}
 
 	public override void StateProcess(float delta) {
