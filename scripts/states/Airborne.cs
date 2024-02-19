@@ -16,6 +16,7 @@ public partial class Airborne : State {
 
 	public override void Exit() {
 		Actor.MovementComponent.SetVelocity('y', 0);
+		// if (Actor.MovementComponent.GetMoveDirection() == Vector3.Zero) Actor.MovementComponent.SetVelocity(Vector3.Zero);
 	}
 
 	public override void StatePhysicsProcess(float delta) {
@@ -30,11 +31,11 @@ public partial class Airborne : State {
 
 		if (JumpQueued) {
 			JumpBufferCounter += delta;
-			// GD.Print(JumpBufferCounter);
 
 			if (JumpBufferCounter > 0.3) { // Next jump will NOT be buffered
 				JumpQueued = false;
 				JumpBufferCounter = 0;
+				GD.Print("Next jump will NOT be buffered");
 			}
 		}
 

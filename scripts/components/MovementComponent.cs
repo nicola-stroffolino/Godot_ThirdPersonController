@@ -145,9 +145,6 @@ public partial class MovementComponent : Node {
 	}
 
 	public override void _PhysicsProcess(double delta) {
-		// Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
-		// Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
-
 		if (GetProcessDeltaTime() != 0 && Actor.StateMachine.CurrentState is not Jump && Actor.StateMachine.CurrentState is not Airborne) {
 			var rootMotion = Actor.AnimationTree.GetRootMotionPosition();
 
@@ -155,26 +152,38 @@ public partial class MovementComponent : Node {
 				X = (float)(rootMotion.X / GetProcessDeltaTime()),
 				Y = Velocity.Y,
 				Z = (float)(rootMotion.Z / GetProcessDeltaTime()),
-			}.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+			};
 
 			Actor.Model.Position = new Vector3 {
 				Y = Actor.AnimationTree.GetRootMotionPositionAccumulator().Y
 			};
 		}
+
+		// Rotating the Model is not a duty of the movement component, i'll keep it here for now
+		if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
+		Actor.Model.Rotation = new() {
+			Y = (float)Mathf.DegToRad(
+				Mathf.Wrap(
+					Mathf.RadToDeg(
+						Mathf.LerpAngle(
+							Actor.Model.Rotation.Y, 
+							LookingRotation, 
+							Actor.StateMachine.CurrentState is Airborne ? delta * 2 : delta * 10 
+						)
+					), 
+					-180,
+					180.0
+				)
+			)
+		};
 		
-		Actor.Velocity = Velocity;
+		Actor.Velocity = Velocity.Rotated(Vector3.Up, Actor.Model.Rotation.Y);;
 		Actor.MoveAndSlide();
 	}
 
 	public void SetDirection(Vector3 direction) {
 		Direction = direction;
 		MoveDirection = Direction.Rotated(Vector3.Up, Actor.CameraComponent.GetHRot()).Normalized();
-
-		// Rotating the Model is not a duty of the movement component, i'll keep it here for now
-		if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
-		Actor.Model.Rotation = new() {
-			Y = (float)Mathf.DegToRad(Mathf.Wrap(Mathf.RadToDeg(Mathf.LerpAngle(Actor.Model.Rotation.Y, LookingRotation, 0.2)), -180, 180.0))
-		};
 	}
 
 	public void SetVelocity(int axys, float value) {
@@ -182,8 +191,10 @@ public partial class MovementComponent : Node {
 
 		Velocity[axys - 120] = value;
 	}
+	public void SetVelocity(Vector3 newVelocity) => Velocity = newVelocity;
 
 	public Vector3 GetVelocity() => Velocity;
+	public Vector3 GetMoveDirection() => MoveDirection;
 
 	public Vector3 DivideVector3ByVelocity(Vector3 v, float d) => new(v.X / d, Velocity.Y, v.Z / d);
 
