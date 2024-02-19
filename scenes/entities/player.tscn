@@ -134,11 +134,10 @@ node_connections = [&"free_lock_transition", 0, &"locked_walk_or_run", &"free_wa
 radius = 0.15
 height = 1.9
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Model", "CollisionShape", "MovementComponent", "CameraComponent", "StateMachine", "AnimationTree", "AnimationPlayer")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Model", "MovementComponent", "CameraComponent", "StateMachine", "AnimationTree", "AnimationPlayer")]
 script = ExtResource("1_dglea")
 JumpHeight = 1
 Model = NodePath("Model")
-CollisionShape = NodePath("CollisionShape3D")
 MovementComponent = NodePath("MovementComponent")
 CameraComponent = NodePath("Camera")
 StateMachine = NodePath("StateMachine")

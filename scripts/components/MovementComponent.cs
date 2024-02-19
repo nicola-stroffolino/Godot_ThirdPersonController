@@ -148,7 +148,7 @@ public partial class MovementComponent : Node {
 		// Velocity.X = Mathf.Lerp(Velocity.X, MoveDirection.X * ActualSpeed, (float)delta * 5);
 		// Velocity.Z = Mathf.Lerp(Velocity.Z, MoveDirection.Z * ActualSpeed, (float)delta * 5);
 
-		if (GetProcessDeltaTime() != 0) {
+		if (GetProcessDeltaTime() != 0 && Actor.StateMachine.CurrentState is not Jump && Actor.StateMachine.CurrentState is not Airborne) {
 			var rootMotion = Actor.AnimationTree.GetRootMotionPosition();
 
 			Velocity = new Vector3 {
