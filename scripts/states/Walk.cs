@@ -5,7 +5,7 @@ using System;
 public partial class Walk : State {
 	public override void Enter() {
 		GD.Print("walk");
-		Actor.MovementComponent.ActualSpeed = Actor.WalkingSpeed;
+		Actor.MovementComponent.ActualSpeed = Actor.MovementComponent.WalkingSpeed;
 
 		Actor.AnimationTree.Set("parameters/free_walk_or_run/blend_amount", 0);
 	}

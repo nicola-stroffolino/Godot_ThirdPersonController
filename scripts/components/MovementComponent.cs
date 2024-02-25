@@ -113,24 +113,28 @@ public partial class MovementComponent : Node {
 
 	[Export]
 	public Player Actor { get; private set; }
-
 	[Export]
-	public RayCast3D LandingRay { get; set; }
-
+	public int WalkingSpeed { get; set; } = 2; //km/h
+	[Export]
+	public int RunningSpeed { get; set; } = 6; //km/h
+	[Export]
+	public float TimeToJumpPeak { get; set; } = .4f; //second
+	[Export]
+	public int JumpHeight { get; set; } = 2; //meter
 
 	// Functional Variables
 	public int ActualSpeed { get; set; }
 	public float Gravity { get; set; }
 	public float JumpSpeed { get; set; }
+	public Vector3 ContiguousDirection { get; set; } = Vector3.Zero;
 	public Vector3 Direction { get; set; } = Vector3.Zero;
-	private Vector3 MoveDirection = Vector3.Zero;
-	private Vector3 Velocity = Vector3.Zero;
-	private Vector3 GravityVector = Vector3.Zero;
-	private float LookingRotation;
+	public Vector3 MoveDirection { get; set; } = Vector3.Zero;
+	public Vector3 Velocity { get; set; } = Vector3.Zero;
+	public float LookingRotation { get; set; }
 
 	public override void _Ready() {
-		Gravity =	2 * Actor.JumpHeight / (Actor.TimeToJumpPeak * Actor.TimeToJumpPeak); //m/s^2;
-		JumpSpeed = Gravity * Actor.TimeToJumpPeak; //m/s
+		Gravity =	2 * JumpHeight / (TimeToJumpPeak * TimeToJumpPeak); //m/s^2;
+		JumpSpeed = Gravity * TimeToJumpPeak; //m/s
 
 		LookingRotation = Actor.CameraComponent.HCamRotation;
 	}
@@ -138,6 +142,7 @@ public partial class MovementComponent : Node {
 	public override void _Process(double delta) {
 		GetNode<Label>("../Control/Label").Text = $@"Input Direction: {Direction}
 			Move Direction: {MoveDirection}
+			Contiguous Direction: {ContiguousDirection}
 			Velocity: {Velocity}
 
 			Target Look: {LookingRotation}
@@ -145,6 +150,7 @@ public partial class MovementComponent : Node {
 	}
 
 	public override void _PhysicsProcess(double delta) {
+
 		if (GetProcessDeltaTime() != 0 && Actor.StateMachine.CurrentState is not Jump && Actor.StateMachine.CurrentState is not Airborne) {
 			var rootMotion = Actor.AnimationTree.GetRootMotionPosition();
 
@@ -162,43 +168,28 @@ public partial class MovementComponent : Node {
 		// Rotating the Model is not a duty of the movement component, i'll keep it here for now
 		if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
 		Actor.Model.Rotation = new() {
-			Y = (float)Mathf.DegToRad(
-				Mathf.Wrap(
-					Mathf.RadToDeg(
-						Mathf.LerpAngle(
-							Actor.Model.Rotation.Y, 
-							LookingRotation, 
-							Actor.StateMachine.CurrentState is Airborne ? delta * 2 : delta * 10 
-						)
-					), 
-					-180,
-					180.0
-				)
+			Y = (float) Mathf.Wrap(
+				Mathf.LerpAngle(
+					Actor.Model.Rotation.Y, 
+					LookingRotation, 
+					Actor.StateMachine.CurrentState is Airborne ? delta * 2 : delta * 10 
+				),
+				-Math.PI,
+				Math.PI
 			)
 		};
+
+		if (Actor.StateMachine.CurrentState is Airborne && Direction == Vector3.Zero) {
+			// Velocity = new Vector3(0, Velocity.Y, 0);
+			// Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 5), Velocity.Y, Velocity.Z);
+			Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 3), Velocity.Y, Mathf.Lerp(Velocity.Z, 0f, (float)delta * 3));
+		}
 		
-		Actor.Velocity = Velocity.Rotated(Vector3.Up, Actor.Model.Rotation.Y);;
+		Actor.Velocity = Velocity.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 		Actor.MoveAndSlide();
 	}
 
-	public void SetDirection(Vector3 direction) {
-		Direction = direction;
-		MoveDirection = Direction.Rotated(Vector3.Up, Actor.CameraComponent.GetHRot()).Normalized();
-	}
-
-	public void SetVelocity(int axys, float value) {
-		if (axys < 120 || axys > 122) return;
-
-		Velocity[axys - 120] = value;
-	}
-	public void SetVelocity(Vector3 newVelocity) => Velocity = newVelocity;
-
-	public Vector3 GetVelocity() => Velocity;
-	public Vector3 GetMoveDirection() => MoveDirection;
-
-	public Vector3 DivideVector3ByVelocity(Vector3 v, float d) => new(v.X / d, Velocity.Y, v.Z / d);
-
 	public void ActuallyJump() {
-		SetVelocity('y', JumpSpeed);
+		Velocity = new Vector3(Velocity.X, JumpSpeed, Velocity.Z);
 	}
 }

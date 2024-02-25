@@ -15,12 +15,17 @@ public partial class Airborne : State {
 	}
 
 	public override void Exit() {
-		Actor.MovementComponent.SetVelocity('y', 0);
+		var v = Actor.MovementComponent.Velocity;
+		Actor.MovementComponent.Velocity = new Vector3(v.X, 0, v.Z);
+		// Actor.MovementComponent.SetVelocity('y', 0);
 		// if (Actor.MovementComponent.GetMoveDirection() == Vector3.Zero) Actor.MovementComponent.SetVelocity(Vector3.Zero);
 	}
 
 	public override void StatePhysicsProcess(float delta) {
-		Actor.MovementComponent.SetVelocity('y', Actor.MovementComponent.GetVelocity().Y - (float)(Actor.MovementComponent.Gravity * delta));
+		var v = Actor.MovementComponent.Velocity;
+		var g = Actor.MovementComponent.Gravity;
+		Actor.MovementComponent.Velocity = new Vector3(v.X, v.Y - g * delta, v.Z);
+		// Actor.MovementComponent.SetVelocity('y', Actor.MovementComponent.GetVelocity().Y - (float)(Actor.MovementComponent.Gravity * delta));
 	}
 
 	public override void StateProcess(float delta) {
@@ -39,7 +44,7 @@ public partial class Airborne : State {
 			}
 		}
 
-		if (Actor.IsOnFloor() && Actor.MovementComponent.GetVelocity().Y < 0) {
+		if (Actor.IsOnFloor() && Actor.MovementComponent.Velocity.Y < 0) {
 			if (Actor.MovementComponent.Direction == Vector3.Zero) {
 				EmitSignal(SignalName.Transitioned, this, "idle");
 				return;
