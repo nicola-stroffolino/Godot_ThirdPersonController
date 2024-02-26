@@ -165,19 +165,19 @@ public partial class MovementComponent : Node {
 		// 	};
 		// }
 
-		// // Rotating the Model is not a duty of the movement component, i'll keep it here for now
-		// if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
-		// Actor.Model.Rotation = new() {
-		// 	Y = (float) Mathf.Wrap(
-		// 		Mathf.LerpAngle(
-		// 			Actor.Model.Rotation.Y, 
-		// 			LookingRotation, 
-		// 			Actor.StateMachine.CurrentState is Airborne ? delta * 2 : delta * 10 
-		// 		),
-		// 		-Math.PI,
-		// 		Math.PI
-		// 	)
-		// };
+		// Rotating the Model is not a duty of the movement component, i'll keep it here for now
+		if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
+		Actor.Model.Rotation = new() {
+			Y = (float) Mathf.Wrap(
+				Mathf.LerpAngle(
+					Actor.Model.Rotation.Y, 
+					LookingRotation, 
+					Actor.StateMachine.CurrentState is Airborne ? delta * 2 : delta * 10 
+				),
+				-Math.PI,
+				Math.PI
+			)
+		};
 
 		// if (Actor.StateMachine.CurrentState is Airborne && Direction == Vector3.Zero) {
 		// 	// Velocity = new Vector3(0, Velocity.Y, 0);
@@ -185,13 +185,20 @@ public partial class MovementComponent : Node {
 		// 	Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 3), Velocity.Y, Mathf.Lerp(Velocity.Z, 0f, (float)delta * 3));
 		// }
 
-		Velocity = new Vector3(Direction.X * ActualSpeed, Velocity.Y, Direction.Z * ActualSpeed);
+		Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
 
-		Actor.Velocity = Velocity.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+		Actor.Velocity = Velocity;//.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
 		Actor.MoveAndSlide();
 	}
 
 	public void ActuallyJump() {
 		Velocity = new Vector3(Velocity.X, JumpSpeed, Velocity.Z);
+	}
+
+	public void CheckIfAirborne() {
+		if (Actor.StateMachine.CurrentState is not Airborne) return;
+
+		Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
+		Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 1);
 	}
 }

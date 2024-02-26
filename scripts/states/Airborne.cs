@@ -12,20 +12,22 @@ public partial class Airborne : State {
 			JumpBufferCounter = 0;
 			JumpQueued = false;
 		}
+		if (Actor.StateMachine.PreviousState is not Jump) {
+			Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 1);
+		}
 	}
 
 	public override void Exit() {
 		var v = Actor.MovementComponent.Velocity;
 		Actor.MovementComponent.Velocity = new Vector3(v.X, 0, v.Z);
-		// Actor.MovementComponent.SetVelocity('y', 0);
-		// if (Actor.MovementComponent.GetMoveDirection() == Vector3.Zero) Actor.MovementComponent.SetVelocity(Vector3.Zero);
+
+		Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 0);
 	}
 
 	public override void StatePhysicsProcess(float delta) {
 		var v = Actor.MovementComponent.Velocity;
 		var g = Actor.MovementComponent.Gravity;
 		Actor.MovementComponent.Velocity = new Vector3(v.X, v.Y - g * delta, v.Z);
-		// Actor.MovementComponent.SetVelocity('y', Actor.MovementComponent.GetVelocity().Y - (float)(Actor.MovementComponent.Gravity * delta));
 	}
 
 	public override void StateProcess(float delta) {
