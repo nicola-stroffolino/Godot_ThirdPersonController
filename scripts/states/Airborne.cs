@@ -28,6 +28,18 @@ public partial class Airborne : State {
 		var v = Actor.MovementComponent.Velocity;
 		var g = Actor.MovementComponent.Gravity;
 		Actor.MovementComponent.Velocity = new Vector3(v.X, v.Y - g * delta, v.Z);
+
+		// if (Actor.MovementComponent.Direction != Vector3.Zero && Actor.StateMachine.PreviousState is not Jump) 
+		// {
+		// 	if (Input.IsActionPressed("sprint"))
+		// 	{
+		// 		Actor.MovementComponent.ActualSpeed = (int)(Actor.MovementComponent.RunningSpeed * 0.8);
+		// 	}
+		// 	else
+		// 	{
+		// 		Actor.MovementComponent.ActualSpeed = (int)(Actor.MovementComponent.WalkingSpeed * 0.8);
+		// 	}
+		// }
 	}
 
 	public override void StateProcess(float delta) {

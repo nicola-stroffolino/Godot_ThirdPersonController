@@ -120,7 +120,7 @@ public partial class MovementComponent : Node {
 	[Export]
 	public float TimeToJumpPeak { get; set; } = .4f; //second
 	[Export]
-	public int JumpHeight { get; set; } = 2; //meter
+	public int JumpHeight { get; set; } = 1; //meter
 
 	// Functional Variables
 	public int ActualSpeed { get; set; }
@@ -172,22 +172,24 @@ public partial class MovementComponent : Node {
 				Mathf.LerpAngle(
 					Actor.Model.Rotation.Y, 
 					LookingRotation, 
-					Actor.StateMachine.CurrentState is Airborne ? delta * 2 : delta * 10 
+					1f//Actor.StateMachine.CurrentState is Airborne ? 0f : 1f 
 				),
 				-Math.PI,
 				Math.PI
 			)
 		};
 
-		// if (Actor.StateMachine.CurrentState is Airborne && Direction == Vector3.Zero) {
-		// 	// Velocity = new Vector3(0, Velocity.Y, 0);
-		// 	// Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 5), Velocity.Y, Velocity.Z);
-		// 	Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 3), Velocity.Y, Mathf.Lerp(Velocity.Z, 0f, (float)delta * 3));
-		// }
+		if (Actor.StateMachine.CurrentState is Airborne && Direction == Vector3.Zero) {
+			// Velocity = new Vector3(0, Velocity.Y, 0);
+			// Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 5), Velocity.Y, Velocity.Z);
+			Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, 1f), Velocity.Y, Mathf.Lerp(Velocity.Z, 0f, 1f));
+		} else if (Actor.StateMachine.CurrentState is not Airborne) {
+			// Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
+		}
 
 		Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
 
-		Actor.Velocity = Velocity;//.Rotated(Vector3.Up, Actor.Model.Rotation.Y);
+		Actor.Velocity = Velocity;
 		Actor.MoveAndSlide();
 	}
 

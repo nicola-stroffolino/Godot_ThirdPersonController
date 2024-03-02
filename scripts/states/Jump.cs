@@ -10,7 +10,7 @@ public partial class Jump : State {
 	}
 
 	public override void Exit() {
-
+		
 	}
 
 	public override void StateProcess(float delta) {
