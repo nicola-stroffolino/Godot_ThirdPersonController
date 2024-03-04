@@ -3,44 +3,28 @@ using System;
 
 public partial class AnimationHandler : AnimationTree {
 	[Export]
-	public Player Actor { get; set; }
-	
-	public override void _Ready() {
-	}
+	public StateMachine StateMachine { get; set; }
+	[Export]
+	public MovementComponent MovementComponent { get; set; }
 
 	public override void _Process(double delta) {
-		switch (Actor.StateMachine.CurrentState) {
-			case Jump:
-				// float animationLength = 0f;
-				// switch (Actor.StateMachine.PreviousState) {
-				// 	case Idle:
-				// 		animationLength = Actor.AnimationTree.GetAnimation("jump").Length;
-				// 		Actor.AnimationTree.Set("parameters/jump_anim_transition/transition_request", "idle");
-				// 		break;
-				// 	case Walk:
-				// 	case Run:
-				// 		animationLength = Actor.AnimationTree.GetAnimation("running_jump").Length;
-				// 		Actor.AnimationTree.Set("parameters/jump_anim_transition/transition_request", "moving");
-				// 		break;
-				// 	default:
-				// 		break;
-				// }
-
-				// Actor.AnimationTree.Set("parameters/jump_time_scale/scale", animationLength / (Actor.TimeToJumpPeak * 2));
-				
-				// Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
-				break;
+		switch (StateMachine.CurrentState) {
 			case Idle:
-				// Set("parameters/free_walk_or_run/blend_amount", -1);
+				BlendFreeIwr(-1, delta * 10);
 				break;
 			case Walk:
-				// Set("parameters/free_walk_or_run/blend_amount", 0);
+				BlendFreeIwr(0, delta * 10);
 				break;
 			case Run:
-				// Set("parameters/free_walk_or_run/blend_amount", 1);
+				BlendFreeIwr(1, delta * 5);
 				break;
 			default:
 				break;
 		}
+	}
+
+	private void BlendFreeIwr(double value, double weight) {
+		const string FREE_IWR = "parameters/free_iwr_blend/blend_amount";
+		Set(FREE_IWR, Mathf.Lerp((float)Get(FREE_IWR), value, weight));
 	}
 }

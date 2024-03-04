@@ -6,11 +6,9 @@ public partial class Player : CharacterBody3D {
 	[Export]
 	public Node3D Model { get; private set; }
 	[Export]
-	public CollisionShape3D CollisionShape { get; private set; }
-	[Export]
 	public MovementComponent MovementComponent { get; private set; }
 	[Export]
-	public CameraComponent CameraComponent { get; private set; }
+	public CameraController CameraController { get; private set; }
 	[Export]
 	public StateMachine StateMachine { get; private set; }
 	[Export]
@@ -24,13 +22,6 @@ public partial class Player : CharacterBody3D {
 		InputDirection.Z = Input.GetActionStrength("move_backward") - Input.GetActionStrength("move_forward");
 
 		MovementComponent.Direction = InputDirection;
-		MovementComponent.MoveDirection = InputDirection.Rotated(Vector3.Up, CameraComponent.GetHRot()).Normalized();
-		if (InputDirection != Vector3.Zero) {
-			if (InputDirection != MovementComponent.ContiguousDirection) {
-				var angle = MovementComponent.ContiguousDirection.AngleTo(InputDirection);
-				GD.Print(Mathf.RadToDeg(angle));
-			}
-			MovementComponent.ContiguousDirection = InputDirection;
-		}
+		MovementComponent.MoveDirection = InputDirection.Rotated(Vector3.Up, CameraController.GetHRot()).Normalized();
 	}
 }

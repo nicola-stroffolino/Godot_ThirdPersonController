@@ -126,66 +126,32 @@ public partial class MovementComponent : Node {
 	public int ActualSpeed { get; set; }
 	public float Gravity { get; set; }
 	public float JumpSpeed { get; set; }
-	public Vector3 ContiguousDirection { get; set; } = Vector3.Zero;
 	public Vector3 Direction { get; set; } = Vector3.Zero;
 	public Vector3 MoveDirection { get; set; } = Vector3.Zero;
 	public Vector3 Velocity { get; set; } = Vector3.Zero;
-	public float LookingRotation { get; set; }
 
 	public override void _Ready() {
 		Gravity =	2 * JumpHeight / (TimeToJumpPeak * TimeToJumpPeak); //m/s^2;
 		JumpSpeed = Gravity * TimeToJumpPeak; //m/s
-
-		LookingRotation = Actor.CameraComponent.HCamRotation;
 	}
 
 	public override void _Process(double delta) {
 		GetNode<Label>("../Control/Label").Text = $@"Input Direction: {Direction}
 			Move Direction: {MoveDirection}
-			Contiguous Direction: {ContiguousDirection}
 			Velocity: {Velocity}
 
-			Target Look: {LookingRotation}
+			Target Look: 
 		";
 	}
 
 	public override void _PhysicsProcess(double delta) {
-
-		// if (GetProcessDeltaTime() != 0 && Actor.StateMachine.CurrentState is not Jump && Actor.StateMachine.CurrentState is not Airborne) {
-		// 	var rootMotion = Actor.AnimationTree.GetRootMotionPosition();
-
-		// 	Velocity = new Vector3 {
-		// 		X = (float)(rootMotion.X / GetProcessDeltaTime()),
-		// 		Y = Velocity.Y,
-		// 		Z = (float)(rootMotion.Z / GetProcessDeltaTime()),
-		// 	};
-
-		// 	Actor.Model.Position = new Vector3 {
-		// 		Y = Actor.AnimationTree.GetRootMotionPositionAccumulator().Y
-		// 	};
+		// if (Actor.StateMachine.CurrentState is Airborne && Direction == Vector3.Zero) {
+		// 	// Velocity = new Vector3(0, Velocity.Y, 0);
+		// 	// Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 5), Velocity.Y, Velocity.Z);
+		// 	Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, 1f), Velocity.Y, Mathf.Lerp(Velocity.Z, 0f, 1f));
+		// } else if (Actor.StateMachine.CurrentState is not Airborne) {
+		// 	// Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
 		// }
-
-		// Rotating the Model is not a duty of the movement component, i'll keep it here for now
-		if (Direction != Vector3.Zero) LookingRotation = Mathf.Atan2(MoveDirection.X, MoveDirection.Z);
-		Actor.Model.Rotation = new() {
-			Y = (float) Mathf.Wrap(
-				Mathf.LerpAngle(
-					Actor.Model.Rotation.Y, 
-					LookingRotation, 
-					1f//Actor.StateMachine.CurrentState is Airborne ? 0f : 1f 
-				),
-				-Math.PI,
-				Math.PI
-			)
-		};
-
-		if (Actor.StateMachine.CurrentState is Airborne && Direction == Vector3.Zero) {
-			// Velocity = new Vector3(0, Velocity.Y, 0);
-			// Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 5), Velocity.Y, Velocity.Z);
-			Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, 1f), Velocity.Y, Mathf.Lerp(Velocity.Z, 0f, 1f));
-		} else if (Actor.StateMachine.CurrentState is not Airborne) {
-			// Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
-		}
 
 		Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
 

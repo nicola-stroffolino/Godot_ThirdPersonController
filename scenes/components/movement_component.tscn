@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://scripts/components/MovementComponent.cs" id="1_n4402"]
 
-[node name="MovementComponent" type="Node3D"]
+[node name="MovementComponent" type="Node"]
 script = ExtResource("1_n4402")

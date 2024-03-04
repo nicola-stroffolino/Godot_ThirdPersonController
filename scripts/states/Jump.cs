@@ -9,10 +9,6 @@ public partial class Jump : State {
 		Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
 	}
 
-	public override void Exit() {
-		
-	}
-
 	public override void StateProcess(float delta) {
 		if (!Actor.IsOnFloor()) {
 			EmitSignal(SignalName.Transitioned, this, "airborne");
