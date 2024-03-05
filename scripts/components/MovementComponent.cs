@@ -164,7 +164,7 @@ public partial class MovementComponent : Node {
 	}
 
 	public void CheckIfAirborne() {
-		if (Actor.StateMachine.CurrentState is not Airborne) return;
+		if (Actor.VerticalStateMachine.CurrentState is not Airborne) return;
 
 		Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
 		Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 1);

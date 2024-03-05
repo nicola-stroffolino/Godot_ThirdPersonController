@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://irt40o1iuj3"]
+[gd_scene load_steps=60 format=3 uid="uid://irt40o1iuj3"]
 
 [ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_dglea"]
 [ext_resource type="PackedScene" uid="uid://d0uq8r4ct8esh" path="res://scenes/components/movement_component.tscn" id="2_20tmq"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/states/Walk.cs" id="6_ewa64"]
 [ext_resource type="Script" path="res://scripts/AnimationController.cs" id="7_0vsuv"]
 [ext_resource type="Script" path="res://scripts/states/Run.cs" id="7_ycp2t"]
+[ext_resource type="Script" path="res://scripts/states/Grounded.cs" id="9_l40h5"]
 [ext_resource type="Script" path="res://scripts/states/Jump.cs" id="9_lhsns"]
 [ext_resource type="Script" path="res://scripts/states/Airborne.cs" id="10_vo1o2"]
 
@@ -10211,6 +10212,7 @@ blend_point_4/pos = Vector2(-1, 0)
 animation = &"locomotion_basic/running_jump"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7ube8"]
+graph_offset = Vector2(1104.29, 99.4866)
 nodes/faling_idle/node = SubResource("AnimationNodeAnimation_h6sgy")
 nodes/faling_idle/position = Vector2(2480, 540)
 nodes/falling_idle/node = SubResource("AnimationNodeBlend2_l6y0w")
@@ -10246,12 +10248,13 @@ node_connections = [&"falling_idle", 0, &"jump_shot", &"falling_idle", 1, &"fali
 radius = 0.15
 height = 1.9
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Model", "MovementComponent", "CameraController", "StateMachine", "AnimationTree", "AnimationPlayer")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Model", "MovementComponent", "CameraController", "MovementStateMachine", "VerticalStateMachine", "AnimationTree", "AnimationPlayer")]
 script = ExtResource("1_dglea")
 Model = NodePath("Model")
 MovementComponent = NodePath("MovementController")
 CameraController = NodePath("CameraController")
-StateMachine = NodePath("StateMachine")
+MovementStateMachine = NodePath("MovementStateMachine")
+VerticalStateMachine = NodePath("VerticalStateMachine")
 AnimationTree = NodePath("AnimationTree")
 AnimationPlayer = NodePath("AnimationPlayer")
 
@@ -10298,29 +10301,43 @@ Actor = NodePath("..")
 [node name="AnimationController" type="Node" parent="."]
 script = ExtResource("7_0vsuv")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
+[node name="VerticalStateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
 script = ExtResource("4_rpni3")
 InitialState = NodePath("Airborne")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("Actor")]
-script = ExtResource("5_v1gad")
-Actor = NodePath("../..")
-
-[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("Actor")]
-script = ExtResource("6_ewa64")
-Actor = NodePath("../..")
-
-[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("Actor")]
-script = ExtResource("7_ycp2t")
-Actor = NodePath("../..")
-
-[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("Actor")]
+[node name="Jump" type="Node" parent="VerticalStateMachine" node_paths=PackedStringArray("Actor", "_states")]
 script = ExtResource("9_lhsns")
 Actor = NodePath("../..")
+_states = [NodePath("../Airborne")]
 
-[node name="Airborne" type="Node" parent="StateMachine" node_paths=PackedStringArray("Actor")]
+[node name="Airborne" type="Node" parent="VerticalStateMachine" node_paths=PackedStringArray("Actor", "_states")]
 script = ExtResource("10_vo1o2")
 Actor = NodePath("../..")
+_states = [NodePath("../Grounded")]
+
+[node name="Grounded" type="Node" parent="VerticalStateMachine" node_paths=PackedStringArray("Actor", "_states")]
+script = ExtResource("9_l40h5")
+Actor = NodePath("../..")
+_states = [NodePath("../Jump"), NodePath("../Airborne")]
+
+[node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
+script = ExtResource("4_rpni3")
+InitialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("Actor", "_states")]
+script = ExtResource("5_v1gad")
+Actor = NodePath("../..")
+_states = [NodePath("../Walk"), NodePath("../Run")]
+
+[node name="Walk" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("Actor", "_states")]
+script = ExtResource("6_ewa64")
+Actor = NodePath("../..")
+_states = [NodePath("../Idle"), NodePath("../Run")]
+
+[node name="Run" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("Actor", "_states")]
+script = ExtResource("7_ycp2t")
+Actor = NodePath("../..")
+_states = [NodePath("../Idle"), NodePath("../Walk")]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

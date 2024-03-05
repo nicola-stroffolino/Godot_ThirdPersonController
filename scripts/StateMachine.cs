@@ -11,43 +11,56 @@ public partial class StateMachine : Node {
 
 	public State PreviousState { get; private set; }	
 	public State CurrentState { get; private set; }
-	public Godot.Collections.Dictionary<string, State> States { get; private set; } = new();
+	// public Godot.Collections.Dictionary<string, State> States { get; private set; } = new();
 
 
 	public override void _Ready() {
-		foreach (var child in GetChildren()) {
-			if (child is State s) {
-				States[s.Name.ToString().ToLower()] = s;
-				s.Connect(State.SignalName.Transitioned, new Callable(this, MethodName.OnChildTransition));
-			}
-		}
+		// foreach (var child in GetChildren()) {
+		// 	if (child is State s) {
+		// 		States[s.Name.ToString().ToLower()] = s;
+		// 		s.Connect(State.SignalName.Transitioned, new Callable(this, MethodName.OnChildTransition));
+		// 	}
+		// }
 
-		if (InitialState != null) {
-			InitialState.Enter();
-			CurrentState = InitialState;
-		}
+		// if (InitialState != null) {
+		// 	InitialState.Enter();
+		// 	CurrentState = InitialState;
+		// }
 
-		PreviousState = CurrentState;
+		// PreviousState = CurrentState;
+		ChangeState(InitialState);
 	}
-
+	
 	public override void _Process(double delta) {
-		CurrentState?.StateProcess((float)delta);
+		var newState = CurrentState.StateProcess((float)delta);
+		if (newState is not null) ChangeState(newState);
+		// CurrentState?.StateProcess((float)delta);
 	}
 
 	public override void _PhysicsProcess(double delta) 	{
-		CurrentState?.StatePhysicsProcess((float)delta);
+		var newState = CurrentState.StatePhysicsProcess((float)delta);
+		if (newState is not null) ChangeState(newState);
+		// CurrentState?.StatePhysicsProcess((float)delta);
 	}
 
-	public void OnChildTransition(State fromState, string newStateName) {
-		if (fromState != CurrentState) return;
-
-		State newState = States.GetValueOrDefault(newStateName.ToLower());
-		if (newState == null) return;
-
+	public void ChangeState(State newState) {
 		CurrentState?.Exit();
 		PreviousState = CurrentState;
-		
-		newState.Enter();
+
 		CurrentState = newState;
+		CurrentState.Enter();
 	}
+
+	// public void OnChildTransition(State fromState, string newStateName) {
+	// 	if (fromState != CurrentState) return;
+
+	// 	State newState = States.GetValueOrDefault(newStateName.ToLower());
+	// 	if (newState == null) return;
+
+	// 	CurrentState?.Exit();
+	// 	PreviousState = CurrentState;
+		
+	// 	newState.Enter();
+	// 	CurrentState = newState;
+	// }
 }

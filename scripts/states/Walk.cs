@@ -1,39 +1,26 @@
 using Godot;
 using System;
 
-[GlobalClass]
+
 public partial class Walk : State {
 	public override void Enter() {
 		GD.Print("walk");
 		Actor.MovementComponent.ActualSpeed = Actor.MovementComponent.WalkingSpeed;
 
-		Actor.AnimationTree.Set("parameters/free_walk_or_run/blend_amount", 0);
+		Actor.AnimationTree.Set("parameters/free_iwr_blend/blend_amount", 0);
 	}
 
-	public override void StateProcess(float delta) {	
-		if (!Actor.IsOnFloor() && Actor.StateMachine.PreviousState is not Jump) {
-			EmitSignal(SignalName.Transitioned, this, "airborne");
-			return;
-		}
-
-		if (Actor.StateMachine.PreviousState is Airborne j && j.JumpQueued) {
-			EmitSignal(SignalName.Transitioned, this, "jump");
-			return;
-		}
-
-		if (Actor.IsOnFloor() && Input.IsActionJustPressed("jump")) {
-			EmitSignal(SignalName.Transitioned, this, "jump");
-			return;
-		}
-
+	public override State StateProcess(float delta) {	
 		if (Actor.MovementComponent.Direction == Vector3.Zero) {
-			EmitSignal(SignalName.Transitioned, this, "idle");
-			return;
+			// EmitSignal(SignalName.Transitioned, this, "idle");
+			return GetState<Idle>();
 		}
 
 		if (Input.IsActionPressed("sprint")) {
-			EmitSignal(SignalName.Transitioned, this, "run");
-			return;
+			// EmitSignal(SignalName.Transitioned, this, "run");
+			return GetState<Run>();
 		}
+
+		return null;
 	}
 }

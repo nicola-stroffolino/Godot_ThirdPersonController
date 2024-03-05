@@ -10,7 +10,9 @@ public partial class Player : CharacterBody3D {
 	[Export]
 	public CameraController CameraController { get; private set; }
 	[Export]
-	public StateMachine StateMachine { get; private set; }
+	public StateMachine MovementStateMachine { get; private set; }
+	[Export]
+	public StateMachine VerticalStateMachine { get; private set; }
 	[Export]
 	public AnimationTree AnimationTree { get; private set; }
 	[Export]

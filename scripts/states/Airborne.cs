@@ -1,7 +1,6 @@
 using Godot;
 using System;
 
-[GlobalClass]
 public partial class Airborne : State {
 	public bool JumpQueued { get; set; } = false;
 	public float JumpBufferCounter { get; set; } = 0;
@@ -12,7 +11,7 @@ public partial class Airborne : State {
 			JumpBufferCounter = 0;
 			JumpQueued = false;
 		}
-		if (Actor.StateMachine.PreviousState is not Jump) {
+		if (Actor.VerticalStateMachine.PreviousState is not Jump) {
 			Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 1);
 		}
 	}
@@ -24,13 +23,15 @@ public partial class Airborne : State {
 		Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 0);
 	}
 
-	public override void StatePhysicsProcess(float delta) {
+	public override State StatePhysicsProcess(float delta) {
 		var v = Actor.MovementComponent.Velocity;
 		var g = Actor.MovementComponent.Gravity;
 		Actor.MovementComponent.Velocity = new Vector3(v.X, v.Y - g * delta, v.Z);
+
+		return null;
 	}
 
-	public override void StateProcess(float delta) {
+	public override State StateProcess(float delta) {
 		if (Input.IsActionJustPressed("jump") && Actor.Velocity.Y <= 0) { // if descending
 			GD.Print("next jump buffered");
 			JumpQueued = true;
@@ -46,21 +47,8 @@ public partial class Airborne : State {
 			}
 		}
 
-		if (Actor.IsOnFloor() && Actor.MovementComponent.Velocity.Y < 0) {
-			if (Actor.MovementComponent.Direction == Vector3.Zero) {
-				EmitSignal(SignalName.Transitioned, this, "idle");
-				return;
-			}
+		if (Actor.IsOnFloor()) return GetState<Grounded>();
 
-			if (Actor.MovementComponent.Direction != Vector3.Zero && !Input.IsActionPressed("sprint")) {
-				EmitSignal(SignalName.Transitioned, this, "walk");
-				return;
-			}
-
-			if (Actor.MovementComponent.Direction != Vector3.Zero && Input.IsActionPressed("sprint")) {
-				EmitSignal(SignalName.Transitioned, this, "run");
-				return;
-			}
-		}
+		return null;
 	}
 }

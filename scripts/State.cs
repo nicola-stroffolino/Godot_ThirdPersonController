@@ -1,19 +1,21 @@
 using Godot;
+using Godot.Collections;
 using System;
+using System.Linq;
 
 [GlobalClass]
 public partial class State : Node {
-	[Signal]
-	public delegate void TransitionedEventHandler();
-
+	// [Signal]
+	// public delegate void TransitionedEventHandler();
 	[Export]
 	public Player Actor { get; set; }
+	[Export]
+	private Array<State> _states;
+
+	protected private State GetState<State>() => _states.OfType<State>().FirstOrDefault();
 
 	public virtual void Enter() {}
-
 	public virtual void Exit() {}
-
-	public virtual void StateProcess(float delta) {}
-
-	public virtual void StatePhysicsProcess(float delta) {}
+	public virtual State StateProcess(float delta) => null;
+	public virtual State StatePhysicsProcess(float delta) => null;
 }
