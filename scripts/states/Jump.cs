@@ -9,10 +9,7 @@ public partial class Jump : State {
 	}
 
 	public override State StateProcess(float delta) {
-		if (!Actor.IsOnFloor()) {
-			// EmitSignal(SignalName.Transitioned, this, "airborne");
-			return GetState<Airborne>();
-		}
+		if (!Actor.IsOnFloor()) return GetState<Airborne>();
 
 		return null;
 	}

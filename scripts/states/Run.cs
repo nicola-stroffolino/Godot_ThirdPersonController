@@ -10,16 +10,10 @@ public partial class Run : State {
 	}
 	
 	public override State StateProcess(float delta) {
-		if (Actor.MovementComponent.Direction == Vector3.Zero) {
-			// EmitSignal(SignalName.Transitioned, this, "idle");
-			return GetState<Idle>();
-		}
-
-		if (!Input.IsActionPressed("sprint")) {
-			// EmitSignal(SignalName.Transitioned, this, "walk");
-			return GetState<Walk>();
-		}
-
+		if (Actor.MovementComponent.Direction == Vector3.Zero) return GetState<Idle>();
+		
+		if (!Input.IsActionPressed("sprint")) return GetState<Walk>();
+		
 		return null;
 	}
 }

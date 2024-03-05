@@ -11,12 +11,10 @@ public partial class Idle : State {
 
 	public override State StateProcess(float delta) {
 		if (Actor.MovementComponent.Direction != Vector3.Zero && !Input.IsActionPressed("sprint")) {
-			// EmitSignal(SignalName.Transitioned, this, "walk");
 			return GetState<Walk>();
 		}
 
 		if (Actor.MovementComponent.Direction != Vector3.Zero && Input.IsActionPressed("sprint")) {
-			// EmitSignal(SignalName.Transitioned, this, "run");
 			return GetState<Run>();
 		}
 
