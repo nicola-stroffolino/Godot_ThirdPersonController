@@ -11,9 +11,9 @@ public partial class Walk : State {
 	}
 
 	public override State StateProcess(float delta) {	
-		if (Actor.MovementComponent.Direction == Vector3.Zero) return GetState<Idle>();
+		if (Actor.WantsToStandStill()) return GetState<Idle>();
 
-		if (Input.IsActionPressed("sprint")) return GetState<Run>();
+		if (Actor.WantsToRun()) return GetState<Run>();
 
 		return null;
 	}

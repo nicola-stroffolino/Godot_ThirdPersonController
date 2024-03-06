@@ -10,9 +10,9 @@ public partial class Run : State {
 	}
 	
 	public override State StateProcess(float delta) {
-		if (Actor.MovementComponent.Direction == Vector3.Zero) return GetState<Idle>();
+		if (Actor.WantsToStandStill()) return GetState<Idle>();
 		
-		if (!Input.IsActionPressed("sprint")) return GetState<Walk>();
+		if (Actor.WantsToWalk()) return GetState<Walk>();
 		
 		return null;
 	}

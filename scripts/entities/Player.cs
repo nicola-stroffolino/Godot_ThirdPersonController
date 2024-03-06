@@ -26,4 +26,8 @@ public partial class Player : CharacterBody3D {
 		MovementComponent.Direction = InputDirection;
 		MovementComponent.MoveDirection = InputDirection.Rotated(Vector3.Up, CameraController.GetHRot()).Normalized();
 	}
+
+	public bool WantsToStandStill() => MovementComponent.Direction == Vector3.Zero;
+	public bool WantsToWalk() => MovementComponent.Direction != Vector3.Zero && !Input.IsActionPressed("sprint");
+	public bool WantsToRun() => MovementComponent.Direction != Vector3.Zero && Input.IsActionPressed("sprint");
 }

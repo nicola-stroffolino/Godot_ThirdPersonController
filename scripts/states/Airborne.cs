@@ -20,7 +20,8 @@ public partial class Airborne : State {
 		var v = Actor.MovementComponent.Velocity;
 		Actor.MovementComponent.Velocity = new Vector3(v.X, 0, v.Z);
 
-		Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 0);
+		// Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 0);
+		Actor.AnimationTree.Set("parameters/falling_idle/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
 	}
 
 	public override State StatePhysicsProcess(float delta) {

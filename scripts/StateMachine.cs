@@ -13,6 +13,8 @@ public partial class StateMachine : Node {
 	public State CurrentState { get; private set; }
 	// public Godot.Collections.Dictionary<string, State> States { get; private set; } = new();
 
+	[Signal]
+	public delegate void StateTransitionedEventHandler(State fromState, State toState);
 
 	public override void _Ready() {
 		// foreach (var child in GetChildren()) {
@@ -49,6 +51,8 @@ public partial class StateMachine : Node {
 
 		CurrentState = newState;
 		CurrentState.Enter();
+
+		EmitSignal(SignalName.StateTransitioned, PreviousState, CurrentState);
 	}
 
 	// public void OnChildTransition(State fromState, string newStateName) {
