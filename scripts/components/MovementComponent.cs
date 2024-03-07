@@ -52,7 +52,7 @@ public partial class MovementComponent : Node {
 	}
 
 	public void ActuallyJump() {
-		Velocity = new Vector3(Velocity.X, JumpSpeed, Velocity.Z);
+		// Velocity = new Vector3(Velocity.X, JumpSpeed, Velocity.Z);
 	}
 
 	public void CheckIfAirborne() {

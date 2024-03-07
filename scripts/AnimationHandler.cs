@@ -8,12 +8,29 @@ public partial class AnimationHandler : AnimationTree {
 	public StateMachine MovementStateMachine { get; set; }
 	[Export]
 	public MovementComponent MovementComponent { get; set; }
+	[Export]
+	public Player Actor { get; set; }
 
 	public override void _Ready() {
-		
+		VerticalStateMachine.Connect("StateTransitioned", new Callable(this, MethodName.OnStateTransitioned));
+	}
+
+	public void OnStateTransitioned(State fromState, State toState) {
+		// GD.Print("aaaaaaa");
 	}
 
 	public override void _Process(double delta) {
+		switch (VerticalStateMachine.CurrentState) {
+			case Airborne:
+			case Jump:
+				Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+				break;
+			case Grounded:
+				Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
+				break;
+			default:
+				break;
+		}
 		// switch (StateMachine.CurrentState) {
 		// 	case Idle:
 		// 		BlendFreeIwr(-1, delta * 10);

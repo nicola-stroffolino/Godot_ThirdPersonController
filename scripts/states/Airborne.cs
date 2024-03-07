@@ -33,7 +33,7 @@ public partial class Airborne : State {
 	}
 
 	public override State StateProcess(float delta) {
-		if (Input.IsActionJustPressed("jump") && Actor.Velocity.Y <= 0) { // if descending
+		if (Input.IsActionJustPressed("jump") && Actor.IsFalling()) { // if descending
 			GD.Print("next jump buffered");
 			JumpQueued = true;
 		}

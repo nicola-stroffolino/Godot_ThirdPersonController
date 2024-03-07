@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://irt40o1iuj3"]
+[gd_scene load_steps=71 format=3 uid="uid://irt40o1iuj3"]
 
 [ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_dglea"]
 [ext_resource type="PackedScene" uid="uid://d0uq8r4ct8esh" path="res://scenes/components/movement_component.tscn" id="2_20tmq"]
@@ -6897,23 +6897,6 @@ tracks/74/path = NodePath("%GeneralSkeleton:RightLittleDistal")
 tracks/74/interp = 1
 tracks/74/loop_wrap = true
 tracks/74/keys = PackedFloat32Array(0, 1, 0, -5.96046e-08, 0, 1)
-tracks/75/type = "method"
-tracks/75/imported = false
-tracks/75/enabled = true
-tracks/75/path = NodePath("../../MovementController")
-tracks/75/interp = 1
-tracks/75/loop_wrap = true
-tracks/75/keys = {
-"times": PackedFloat32Array(0.1, 0.651177),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"ActuallyJump"
-}, {
-"args": [],
-"method": &"CheckIfAirborne"
-}]
-}
 
 [sub_resource type="Animation" id="Animation_yrlvd"]
 resource_name = "running_jump_to_height"
@@ -10117,10 +10100,38 @@ _data = {
 "walk_right": SubResource("Animation_oyfbe")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h6sgy"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p0mam"]
 animation = &"locomotion_basic/falling_idle"
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_l6y0w"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ud04b"]
+animation = &"locomotion_basic/running_jump"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_td14k"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y8xia"]
+advance_mode = 2
+advance_expression = "Actor.IsFalling()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ycrvp"]
+advance_mode = 2
+advance_expression = "Actor.IsGrounded()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_e8f5r"]
+advance_mode = 2
+advance_expression = "Actor.IsFalling()"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ewra8"]
+states/End/position = Vector2(956, 100)
+states/locomotion_basic_falling_idle/node = SubResource("AnimationNodeAnimation_p0mam")
+states/locomotion_basic_falling_idle/position = Vector2(738, 100)
+states/locomotion_basic_running_jump/node = SubResource("AnimationNodeAnimation_ud04b")
+states/locomotion_basic_running_jump/position = Vector2(424, 26)
+transitions = ["Start", "locomotion_basic_running_jump", SubResource("AnimationNodeStateMachineTransition_td14k"), "locomotion_basic_running_jump", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_y8xia"), "locomotion_basic_falling_idle", "End", SubResource("AnimationNodeStateMachineTransition_ycrvp"), "Start", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_e8f5r")]
+graph_offset = Vector2(-2, -104)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h6sgy"]
+animation = &"locomotion_basic/falling_idle"
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_4ui3h"]
 fadein_time = 0.2
@@ -10130,123 +10141,137 @@ animation = &"locomotion_basic/idle"
 
 [sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_fubg4"]
 
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_6pshn"]
-input_0/name = "locked"
-input_0/auto_advance = false
-input_0/reset = true
-input_1/name = "free"
-input_1/auto_advance = false
-input_1/reset = true
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bwcrg"]
 animation = &"locomotion_basic/run_front"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_18gj6"]
 animation = &"locomotion_basic/walk_front"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wt05t"]
-animation = &"jump"
-
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_svv2n"]
-filters = ["Armature/Skeleton3D:mixamorig_LeftFoot", "Armature/Skeleton3D:mixamorig_LeftLeg", "Armature/Skeleton3D:mixamorig_LeftToeBase", "Armature/Skeleton3D:mixamorig_LeftToe_End", "Armature/Skeleton3D:mixamorig_LeftUpLeg", "Armature/Skeleton3D:mixamorig_RightFoot", "Armature/Skeleton3D:mixamorig_RightLeg", "Armature/Skeleton3D:mixamorig_RightToeBase", "Armature/Skeleton3D:mixamorig_RightToe_End", "Armature/Skeleton3D:mixamorig_RightUpLeg"]
-
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_g78h8"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_shirr"]
-animation = &"run_front"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g4p8y"]
-animation = &"run_back"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vlgo0"]
-animation = &"run_right"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_roh0c"]
-animation = &"run_left"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fy2fd"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_5ovor"]
-auto_triangles = false
-blend_point_0/node = SubResource("AnimationNodeAnimation_shirr")
-blend_point_0/pos = Vector2(0, 1)
-blend_point_1/node = SubResource("AnimationNodeAnimation_g4p8y")
-blend_point_1/pos = Vector2(0, -1)
-blend_point_2/node = SubResource("AnimationNodeAnimation_vlgo0")
-blend_point_2/pos = Vector2(1, 0)
-blend_point_3/node = SubResource("AnimationNodeAnimation_roh0c")
-blend_point_3/pos = Vector2(-1, 0)
-blend_point_4/node = SubResource("AnimationNodeAnimation_fy2fd")
-blend_point_4/pos = Vector2(0, 0)
-triangles = PackedInt32Array(1, 3, 4, 0, 3, 4, 1, 2, 4, 0, 2, 4)
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nmgui"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7vuqg"]
-animation = &"walk_front"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pu6kh"]
-animation = &"walk_right"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_whbri"]
-animation = &"walk_back"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7ke0n"]
-animation = &"walk_left"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_fjm04"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_nmgui")
-blend_point_0/pos = Vector2(0, 0)
-blend_point_1/node = SubResource("AnimationNodeAnimation_7vuqg")
-blend_point_1/pos = Vector2(0, 1)
-blend_point_2/node = SubResource("AnimationNodeAnimation_pu6kh")
-blend_point_2/pos = Vector2(1, 0)
-blend_point_3/node = SubResource("AnimationNodeAnimation_whbri")
-blend_point_3/pos = Vector2(0, -1)
-blend_point_4/node = SubResource("AnimationNodeAnimation_7ke0n")
-blend_point_4/pos = Vector2(-1, 0)
-
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_nht2m"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vjxo7"]
 animation = &"locomotion_basic/running_jump"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1vsfj"]
+animation = &"locomotion_basic/idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vha5l"]
+animation = &"locomotion_basic/run_front"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iue11"]
+animation = &"locomotion_basic/walk_front"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_77oow"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToStandStill()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o7big"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToRun()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yme34"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToWalk()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4t8xk"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToStandStill()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qwdvj"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToRun()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jp5l5"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToWalk()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_k1cn3"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_k334k"]
+states/locomotion_basic_idle/node = SubResource("AnimationNodeAnimation_1vsfj")
+states/locomotion_basic_idle/position = Vector2(400, 100)
+states/locomotion_basic_run_front/node = SubResource("AnimationNodeAnimation_vha5l")
+states/locomotion_basic_run_front/position = Vector2(666, 23)
+states/locomotion_basic_walk_front/node = SubResource("AnimationNodeAnimation_iue11")
+states/locomotion_basic_walk_front/position = Vector2(666, 188)
+transitions = ["locomotion_basic_run_front", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_77oow"), "locomotion_basic_idle", "locomotion_basic_run_front", SubResource("AnimationNodeStateMachineTransition_o7big"), "locomotion_basic_idle", "locomotion_basic_walk_front", SubResource("AnimationNodeStateMachineTransition_yme34"), "locomotion_basic_walk_front", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_4t8xk"), "locomotion_basic_walk_front", "locomotion_basic_run_front", SubResource("AnimationNodeStateMachineTransition_qwdvj"), "locomotion_basic_run_front", "locomotion_basic_walk_front", SubResource("AnimationNodeStateMachineTransition_jp5l5"), "Start", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_k1cn3")]
+graph_offset = Vector2(79, -72)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jei7b"]
+animation = &"locomotion_basic/falling_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mctxb"]
+animation = &"locomotion_basic/running_jump"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j24bg"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qy1tr"]
+advance_mode = 2
+advance_expression = "Actor.WantsToJump()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_13mjq"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.IsFalling()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8g5pg"]
+advance_mode = 2
+advance_expression = "Actor.IsGrounded()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1f23y"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.IsFalling()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_covfr"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.IsGrounded()"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_efaeq"]
+states/End/position = Vector2(1168, 92)
+states/Start/position = Vector2(151, 92)
+states/iwr_state_machine/node = SubResource("AnimationNodeStateMachine_k334k")
+states/iwr_state_machine/position = Vector2(426, 92)
+states/locomotion_basic_falling_idle/node = SubResource("AnimationNodeAnimation_jei7b")
+states/locomotion_basic_falling_idle/position = Vector2(591, -10)
+states/locomotion_basic_running_jump/node = SubResource("AnimationNodeAnimation_mctxb")
+states/locomotion_basic_running_jump/position = Vector2(591, 186)
+transitions = ["Start", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_j24bg"), "iwr_state_machine", "locomotion_basic_running_jump", SubResource("AnimationNodeStateMachineTransition_qy1tr"), "locomotion_basic_running_jump", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_13mjq"), "locomotion_basic_falling_idle", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_8g5pg"), "iwr_state_machine", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_1f23y"), "locomotion_basic_running_jump", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_covfr")]
+graph_offset = Vector2(64, -63)
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7ube8"]
-graph_offset = Vector2(1001.97, -2.99344)
+graph_offset = Vector2(1822.44, 4.34734)
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_ewra8")
+nodes/StateMachine/position = Vector2(2080, 400)
 nodes/faling_idle/node = SubResource("AnimationNodeAnimation_h6sgy")
-nodes/faling_idle/position = Vector2(2480, 540)
+nodes/faling_idle/position = Vector2(2540, 640)
 nodes/falling_idle/node = SubResource("AnimationNodeOneShot_4ui3h")
-nodes/falling_idle/position = Vector2(2780, 280)
-nodes/falling_idle--/node = SubResource("AnimationNodeBlend2_l6y0w")
-nodes/falling_idle--/position = Vector2(3220, 320)
+nodes/falling_idle/position = Vector2(2840, 380)
 nodes/free_idle/node = SubResource("AnimationNodeAnimation_owl24")
-nodes/free_idle/position = Vector2(1860, 200)
+nodes/free_idle/position = Vector2(1500, 140)
 nodes/free_iwr_blend/node = SubResource("AnimationNodeBlend3_fubg4")
-nodes/free_iwr_blend/position = Vector2(2220, 280)
-nodes/free_lock_transition/node = SubResource("AnimationNodeTransition_6pshn")
-nodes/free_lock_transition/position = Vector2(1020, 20)
+nodes/free_iwr_blend/position = Vector2(1860, 220)
 nodes/free_run/node = SubResource("AnimationNodeAnimation_bwcrg")
-nodes/free_run/position = Vector2(1800, 440)
+nodes/free_run/position = Vector2(1440, 380)
 nodes/free_walk/node = SubResource("AnimationNodeAnimation_18gj6")
-nodes/free_walk/position = Vector2(1800, 320)
-nodes/jump_idle/node = SubResource("AnimationNodeAnimation_wt05t")
-nodes/jump_idle/position = Vector2(860, 260)
-nodes/jump_shot/node = SubResource("AnimationNodeOneShot_svv2n")
-nodes/jump_shot/position = Vector2(2500, 280)
+nodes/free_walk/position = Vector2(1440, 260)
 nodes/jump_time_scale/node = SubResource("AnimationNodeTimeScale_g78h8")
-nodes/jump_time_scale/position = Vector2(2260, 500)
-nodes/locked_run/node = SubResource("AnimationNodeBlendSpace2D_5ovor")
-nodes/locked_run/position = Vector2(480, 120)
-nodes/locked_walk/node = SubResource("AnimationNodeBlendSpace2D_fjm04")
-nodes/locked_walk/position = Vector2(480, -60)
-nodes/locked_walk_or_run/node = SubResource("AnimationNodeBlend2_nht2m")
-nodes/locked_walk_or_run/position = Vector2(720, 0)
-nodes/output/position = Vector2(3040, 320)
+nodes/jump_time_scale/position = Vector2(2320, 600)
+nodes/output/position = Vector2(2520, 200)
 nodes/run_jump/node = SubResource("AnimationNodeAnimation_vjxo7")
-nodes/run_jump/position = Vector2(1920, 580)
-node_connections = [&"falling_idle", 0, &"jump_shot", &"falling_idle", 1, &"faling_idle", &"free_iwr_blend", 0, &"free_idle", &"free_iwr_blend", 1, &"free_walk", &"free_iwr_blend", 2, &"free_run", &"free_lock_transition", 0, &"locked_walk_or_run", &"jump_shot", 0, &"free_iwr_blend", &"jump_shot", 1, &"jump_time_scale", &"jump_time_scale", 0, &"run_jump", &"locked_walk_or_run", 0, &"locked_walk", &"locked_walk_or_run", 1, &"locked_run", &"output", 0, &"falling_idle"]
+nodes/run_jump/position = Vector2(1980, 680)
+nodes/state_machine/node = SubResource("AnimationNodeStateMachine_efaeq")
+nodes/state_machine/position = Vector2(2240, 140)
+node_connections = [&"falling_idle", 1, &"faling_idle", &"free_iwr_blend", 0, &"free_idle", &"free_iwr_blend", 1, &"free_walk", &"free_iwr_blend", 2, &"free_run", &"jump_time_scale", 0, &"run_jump", &"output", 0, &"state_machine"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3dldm"]
 radius = 0.15
@@ -10272,7 +10297,7 @@ libraries = {
 "locomotion_basic": SubResource("AnimationLibrary_gt2wv")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="." node_paths=PackedStringArray("VerticalStateMachine", "MovementStateMachine", "MovementComponent")]
+[node name="AnimationTree" type="AnimationTree" parent="." node_paths=PackedStringArray("VerticalStateMachine", "MovementStateMachine", "MovementComponent", "Actor")]
 root_node = NodePath("../Model/RootNode")
 root_motion_track = NodePath("%GeneralSkeleton:Root")
 libraries = {
@@ -10283,22 +10308,13 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/falling_idle/active = false
 parameters/falling_idle/internal_active = false
 parameters/falling_idle/request = 0
-parameters/falling_idle--/blend_amount = 0.0
 parameters/free_iwr_blend/blend_amount = -1.0
-parameters/free_lock_transition/current_state = "free"
-parameters/free_lock_transition/transition_request = ""
-parameters/free_lock_transition/current_index = 1
-parameters/jump_shot/active = false
-parameters/jump_shot/internal_active = false
-parameters/jump_shot/request = 0
 parameters/jump_time_scale/scale = 1.0
-parameters/locked_run/blend_position = Vector2(0, 0)
-parameters/locked_walk/blend_position = Vector2(0, 0)
-parameters/locked_walk_or_run/blend_amount = 0.0
 script = ExtResource("4_jk524")
 VerticalStateMachine = NodePath("../VerticalStateMachine")
 MovementStateMachine = NodePath("../MovementStateMachine")
 MovementComponent = NodePath("../MovementController")
+Actor = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 3.25963e-09, 0, -9.31323e-10, 1, 7.45058e-09, 0, 0, 1, 1.02096e-10, 0.929321, 0)

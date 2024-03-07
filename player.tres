@@ -1,0 +1,59 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=12 format=3 uid="uid://dea4pmccg3k7y"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_rrhdh"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xscyq"]
+animation = &"locomotion_basic/idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xbnbd"]
+animation = &"locomotion_basic/run_front"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rgn1g"]
+animation = &"locomotion_basic/walk_front"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0owxl"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToWalk()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5qdt3"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToStandStill()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vi0qi"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToRun()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dptbc"]
+xfade_time = 0.3
+advance_mode = 2
+advance_expression = "Actor.WantsToWalk()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8s3hn"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToStandStill()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jcabf"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "Actor.WantsToRun()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4uvek"]
+advance_mode = 2
+
+[resource]
+states/End/position = Vector2(1168, 92)
+states/Start/position = Vector2(151, 92)
+states/StateMachine/node = SubResource("AnimationNodeStateMachine_rrhdh")
+states/StateMachine/position = Vector2(437, 7)
+states/locomotion_basic_idle/node = SubResource("AnimationNodeAnimation_xscyq")
+states/locomotion_basic_idle/position = Vector2(364, 92)
+states/locomotion_basic_run_front/node = SubResource("AnimationNodeAnimation_xbnbd")
+states/locomotion_basic_run_front/position = Vector2(669, 92)
+states/locomotion_basic_walk_front/node = SubResource("AnimationNodeAnimation_rgn1g")
+states/locomotion_basic_walk_front/position = Vector2(522, 202)
+transitions = ["locomotion_basic_idle", "locomotion_basic_walk_front", SubResource("AnimationNodeStateMachineTransition_0owxl"), "locomotion_basic_walk_front", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_5qdt3"), "locomotion_basic_walk_front", "locomotion_basic_run_front", SubResource("AnimationNodeStateMachineTransition_vi0qi"), "locomotion_basic_run_front", "locomotion_basic_walk_front", SubResource("AnimationNodeStateMachineTransition_dptbc"), "locomotion_basic_run_front", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_8s3hn"), "locomotion_basic_idle", "locomotion_basic_run_front", SubResource("AnimationNodeStateMachineTransition_jcabf"), "Start", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_4uvek")]
+graph_offset = Vector2(24, -79)
