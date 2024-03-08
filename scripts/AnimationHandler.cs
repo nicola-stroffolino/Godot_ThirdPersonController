@@ -20,13 +20,24 @@ public partial class AnimationHandler : AnimationTree {
 	}
 
 	public override void _Process(double delta) {
+		var asm = Get("parameters/state_machine/playback").As<AnimationNodeStateMachinePlayback>();
+		if (asm.GetCurrentNode() == "locomotion_basic_falling_idle" && VerticalStateMachine.CurrentState is Grounded) {
+			GD.Print(asm.GetCurrentNode());
+			asm.Next();
+			// asm.Travel("iwr_state_machine");
+		}
+		// if (VerticalStateMachine.PreviousState is Airborne && VerticalStateMachine.CurrentState is Grounded) {
+		// 	asm.Travel("locomotion_basic_running_jump");
+		// 	// asm.Stop();
+			
+		// }
 		switch (VerticalStateMachine.CurrentState) {
 			case Airborne:
 			case Jump:
-				Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+				// Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
 				break;
 			case Grounded:
-				Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
+				// Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
 				break;
 			default:
 				break;

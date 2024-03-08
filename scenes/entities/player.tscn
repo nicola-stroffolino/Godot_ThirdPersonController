@@ -10219,6 +10219,7 @@ advance_expression = "Actor.WantsToJump()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_13mjq"]
 xfade_time = 0.2
+priority = 2
 advance_mode = 2
 advance_expression = "Actor.IsFalling()"
 
@@ -10246,10 +10247,10 @@ states/locomotion_basic_falling_idle/position = Vector2(591, -10)
 states/locomotion_basic_running_jump/node = SubResource("AnimationNodeAnimation_mctxb")
 states/locomotion_basic_running_jump/position = Vector2(591, 186)
 transitions = ["Start", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_j24bg"), "iwr_state_machine", "locomotion_basic_running_jump", SubResource("AnimationNodeStateMachineTransition_qy1tr"), "locomotion_basic_running_jump", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_13mjq"), "locomotion_basic_falling_idle", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_8g5pg"), "iwr_state_machine", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_1f23y"), "locomotion_basic_running_jump", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_covfr")]
-graph_offset = Vector2(64, -63)
+graph_offset = Vector2(64, -41.2541)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7ube8"]
-graph_offset = Vector2(1822.44, 4.34734)
+graph_offset = Vector2(1354.22, 125.531)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_ewra8")
 nodes/StateMachine/position = Vector2(2080, 400)
 nodes/faling_idle/node = SubResource("AnimationNodeAnimation_h6sgy")

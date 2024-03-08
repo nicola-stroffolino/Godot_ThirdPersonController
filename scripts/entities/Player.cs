@@ -32,5 +32,5 @@ public partial class Player : CharacterBody3D {
 	public bool WantsToRun() => MovementComponent.Direction != Vector3.Zero && Input.IsActionPressed("sprint");
 	public bool WantsToJump() => (VerticalStateMachine.PreviousState is Airborne j && j.JumpQueued) || (IsOnFloor() && Input.IsActionJustPressed("jump"));
 	public bool IsFalling() => !IsOnFloor() && Velocity.Y <= 0;
-	public bool IsGrounded() => IsOnFloor();
+	public bool IsGrounded() => VerticalStateMachine.CurrentState is Grounded;
 }
