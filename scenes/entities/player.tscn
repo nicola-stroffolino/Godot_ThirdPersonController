@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://irt40o1iuj3"]
+[gd_scene load_steps=66 format=3 uid="uid://irt40o1iuj3"]
 
 [ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_dglea"]
 [ext_resource type="PackedScene" uid="uid://d0uq8r4ct8esh" path="res://scenes/components/movement_component.tscn" id="2_20tmq"]
@@ -10152,6 +10152,9 @@ animation = &"locomotion_basic/walk_front"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vjxo7"]
 animation = &"locomotion_basic/running_jump"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_egoaf"]
+animation = &"locomotion_basic/falling_idle"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1vsfj"]
 animation = &"locomotion_basic/idle"
 
@@ -10164,114 +10167,87 @@ animation = &"locomotion_basic/walk_front"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_77oow"]
 xfade_time = 0.2
 advance_mode = 2
-advance_expression = "Actor.WantsToStandStill()"
+advance_expression = "WantsToStandStill()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o7big"]
 xfade_time = 0.2
 advance_mode = 2
-advance_expression = "Actor.WantsToRun()"
+advance_expression = "WantsToRun()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yme34"]
 xfade_time = 0.2
 advance_mode = 2
-advance_expression = "Actor.WantsToWalk()"
+advance_expression = "WantsToWalk()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4t8xk"]
 xfade_time = 0.2
 advance_mode = 2
-advance_expression = "Actor.WantsToStandStill()"
+advance_expression = "WantsToStandStill()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qwdvj"]
 xfade_time = 0.2
 advance_mode = 2
-advance_expression = "Actor.WantsToRun()"
+advance_expression = "WantsToRun()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jp5l5"]
 xfade_time = 0.2
 advance_mode = 2
-advance_expression = "Actor.WantsToWalk()"
+advance_expression = "WantsToWalk()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_k1cn3"]
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_k334k"]
-states/locomotion_basic_idle/node = SubResource("AnimationNodeAnimation_1vsfj")
-states/locomotion_basic_idle/position = Vector2(400, 100)
-states/locomotion_basic_run_front/node = SubResource("AnimationNodeAnimation_vha5l")
-states/locomotion_basic_run_front/position = Vector2(666, 23)
-states/locomotion_basic_walk_front/node = SubResource("AnimationNodeAnimation_iue11")
-states/locomotion_basic_walk_front/position = Vector2(666, 188)
-transitions = ["locomotion_basic_run_front", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_77oow"), "locomotion_basic_idle", "locomotion_basic_run_front", SubResource("AnimationNodeStateMachineTransition_o7big"), "locomotion_basic_idle", "locomotion_basic_walk_front", SubResource("AnimationNodeStateMachineTransition_yme34"), "locomotion_basic_walk_front", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_4t8xk"), "locomotion_basic_walk_front", "locomotion_basic_run_front", SubResource("AnimationNodeStateMachineTransition_qwdvj"), "locomotion_basic_run_front", "locomotion_basic_walk_front", SubResource("AnimationNodeStateMachineTransition_jp5l5"), "Start", "locomotion_basic_idle", SubResource("AnimationNodeStateMachineTransition_k1cn3")]
-graph_offset = Vector2(79, -72)
+states/idle/node = SubResource("AnimationNodeAnimation_1vsfj")
+states/idle/position = Vector2(400, 100)
+states/run/node = SubResource("AnimationNodeAnimation_vha5l")
+states/run/position = Vector2(508, 46)
+states/walk/node = SubResource("AnimationNodeAnimation_iue11")
+states/walk/position = Vector2(508, 155)
+transitions = ["run", "idle", SubResource("AnimationNodeStateMachineTransition_77oow"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_o7big"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_yme34"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_4t8xk"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_qwdvj"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_jp5l5"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_k1cn3")]
+graph_offset = Vector2(-61, -79)
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jei7b"]
-animation = &"locomotion_basic/falling_idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mctxb"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b3vei"]
 animation = &"locomotion_basic/running_jump"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j24bg"]
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qy1tr"]
-advance_mode = 2
-advance_expression = "Actor.WantsToJump()"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_13mjq"]
-xfade_time = 0.2
-priority = 2
-advance_mode = 2
-advance_expression = "Actor.IsFalling()"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8g5pg"]
-advance_mode = 2
-advance_expression = "Actor.IsGrounded()"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1f23y"]
-xfade_time = 0.2
-advance_mode = 2
-advance_expression = "Actor.IsFalling()"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_covfr"]
-xfade_time = 0.2
-advance_mode = 2
-advance_expression = "Actor.IsGrounded()"
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_efaeq"]
-states/End/position = Vector2(1168, 92)
+states/End/position = Vector2(1014, 92)
 states/Start/position = Vector2(151, 92)
+states/falling/node = SubResource("AnimationNodeAnimation_egoaf")
+states/falling/position = Vector2(704, 178.746)
 states/iwr_state_machine/node = SubResource("AnimationNodeStateMachine_k334k")
-states/iwr_state_machine/position = Vector2(426, 92)
-states/locomotion_basic_falling_idle/node = SubResource("AnimationNodeAnimation_jei7b")
-states/locomotion_basic_falling_idle/position = Vector2(591, -10)
-states/locomotion_basic_running_jump/node = SubResource("AnimationNodeAnimation_mctxb")
-states/locomotion_basic_running_jump/position = Vector2(591, 186)
-transitions = ["Start", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_j24bg"), "iwr_state_machine", "locomotion_basic_running_jump", SubResource("AnimationNodeStateMachineTransition_qy1tr"), "locomotion_basic_running_jump", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_13mjq"), "locomotion_basic_falling_idle", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_8g5pg"), "iwr_state_machine", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_1f23y"), "locomotion_basic_running_jump", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_covfr")]
-graph_offset = Vector2(64, -41.2541)
+states/iwr_state_machine/position = Vector2(425, 92)
+states/jump/node = SubResource("AnimationNodeAnimation_b3vei")
+states/jump/position = Vector2(704, 9)
+transitions = ["Start", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_j24bg")]
+graph_offset = Vector2(45, -64.2541)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7ube8"]
-graph_offset = Vector2(1354.22, 125.531)
+graph_offset = Vector2(-26.7105, -408.627)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_ewra8")
-nodes/StateMachine/position = Vector2(2080, 400)
+nodes/StateMachine/position = Vector2(180, 0)
 nodes/faling_idle/node = SubResource("AnimationNodeAnimation_h6sgy")
-nodes/faling_idle/position = Vector2(2540, 640)
+nodes/faling_idle/position = Vector2(640, 240)
 nodes/falling_idle/node = SubResource("AnimationNodeOneShot_4ui3h")
-nodes/falling_idle/position = Vector2(2840, 380)
+nodes/falling_idle/position = Vector2(940, -20)
 nodes/free_idle/node = SubResource("AnimationNodeAnimation_owl24")
-nodes/free_idle/position = Vector2(1500, 140)
+nodes/free_idle/position = Vector2(-400, -260)
 nodes/free_iwr_blend/node = SubResource("AnimationNodeBlend3_fubg4")
-nodes/free_iwr_blend/position = Vector2(1860, 220)
+nodes/free_iwr_blend/position = Vector2(-40, -180)
 nodes/free_run/node = SubResource("AnimationNodeAnimation_bwcrg")
-nodes/free_run/position = Vector2(1440, 380)
+nodes/free_run/position = Vector2(-460, -20)
 nodes/free_walk/node = SubResource("AnimationNodeAnimation_18gj6")
-nodes/free_walk/position = Vector2(1440, 260)
+nodes/free_walk/position = Vector2(-460, -140)
 nodes/jump_time_scale/node = SubResource("AnimationNodeTimeScale_g78h8")
-nodes/jump_time_scale/position = Vector2(2320, 600)
-nodes/output/position = Vector2(2520, 200)
+nodes/jump_time_scale/position = Vector2(420, 200)
+nodes/output/position = Vector2(620, -200)
 nodes/run_jump/node = SubResource("AnimationNodeAnimation_vjxo7")
-nodes/run_jump/position = Vector2(1980, 680)
+nodes/run_jump/position = Vector2(80, 280)
 nodes/state_machine/node = SubResource("AnimationNodeStateMachine_efaeq")
-nodes/state_machine/position = Vector2(2240, 140)
+nodes/state_machine/position = Vector2(340, -260)
 node_connections = [&"falling_idle", 1, &"faling_idle", &"free_iwr_blend", 0, &"free_idle", &"free_iwr_blend", 1, &"free_walk", &"free_iwr_blend", 2, &"free_run", &"jump_time_scale", 0, &"run_jump", &"output", 0, &"state_machine"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3dldm"]
@@ -10305,6 +10281,7 @@ libraries = {
 "locomotion_basic": SubResource("AnimationLibrary_gt2wv")
 }
 tree_root = SubResource("AnimationNodeBlendTree_7ube8")
+advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/falling_idle/active = false
 parameters/falling_idle/internal_active = false

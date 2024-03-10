@@ -6,7 +6,7 @@ public partial class Idle : State {
 		GD.Print("idle");
 		Actor.MovementComponent.ActualSpeed = 0;
 
-		Actor.AnimationTree.Set("parameters/free_iwr_blend/blend_amount", -1);
+		// Actor.AnimationTree.Set("parameters/free_iwr_blend/blend_amount", -1);
 	}
 
 	public override State StateProcess(float delta) {

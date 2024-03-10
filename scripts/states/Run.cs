@@ -6,7 +6,7 @@ public partial class Run : State {
 		GD.Print("run");
 		Actor.MovementComponent.ActualSpeed = Actor.MovementComponent.RunningSpeed;
 
-		Actor.AnimationTree.Set("parameters/free_iwr_blend/blend_amount", 1);
+		// Actor.AnimationTree.Set("parameters/free_iwr_blend/blend_amount", 1);
 	}
 	
 	public override State StateProcess(float delta) {

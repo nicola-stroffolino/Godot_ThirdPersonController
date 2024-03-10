@@ -19,7 +19,7 @@ public partial class Model : Node3D {
 			var angleDifference = Mathf.Abs(n - o);
 			if (angleDifference > 180) angleDifference = 360 - angleDifference;
 			
-			if (n != o) GD.Print($"New: {n} - Old: {o} - Result: {angleDifference}");
+			// if (n != o) GD.Print($"New: {n} - Old: {o} - Result: {angleDifference}");
 
 			LookingRotation = Mathf.Atan2(mv.MoveDirection.X, mv.MoveDirection.Z);
 		}
@@ -29,7 +29,7 @@ public partial class Model : Node3D {
 				Mathf.LerpAngle(
 					Rotation.Y,
 					LookingRotation,
-					1f // Actor.StateMachine.CurrentState is Airborne ? 0f : 1f 
+					delta * 10 // Actor.StateMachine.CurrentState is Airborne ? 0f : 1f 
 				),
 				-Math.PI,
 				Math.PI

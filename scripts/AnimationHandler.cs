@@ -21,11 +21,10 @@ public partial class AnimationHandler : AnimationTree {
 
 	public override void _Process(double delta) {
 		var asm = Get("parameters/state_machine/playback").As<AnimationNodeStateMachinePlayback>();
-		if (asm.GetCurrentNode() == "locomotion_basic_falling_idle" && VerticalStateMachine.CurrentState is Grounded) {
-			GD.Print(asm.GetCurrentNode());
-			asm.Next();
-			// asm.Travel("iwr_state_machine");
-		}
+		// if (asm.GetCurrentNode() == "locomotion_basic_falling_idle") {
+		// 	asm.Next();
+		// 	// asm.Travel("iwr_state_machine");
+		// }
 		// if (VerticalStateMachine.PreviousState is Airborne && VerticalStateMachine.CurrentState is Grounded) {
 		// 	asm.Travel("locomotion_basic_running_jump");
 		// 	// asm.Stop();
