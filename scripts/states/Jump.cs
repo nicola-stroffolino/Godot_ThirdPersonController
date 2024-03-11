@@ -5,8 +5,8 @@ public partial class Jump : State {
 	public override void Enter() {	
 		GD.Print("jump");
 
-		Actor.MovementComponent.Velocity = new Vector3(Actor.Velocity.X, Actor.MovementComponent.JumpSpeed, Actor.Velocity.Z);
-		// Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+		Actor.MovementComponent.SetVelocity(Vector3.Up, Actor.MovementComponent.JumpSpeed);
+		Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
 	}
 
 	public override State StateProcess(float delta) {

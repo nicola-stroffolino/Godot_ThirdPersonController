@@ -37,29 +37,21 @@ public partial class MovementComponent : Node {
 	}
 
 	public override void _PhysicsProcess(double delta) {
-		// if (Actor.StateMachine.CurrentState is Airborne && Direction == Vector3.Zero) {
-		// 	// Velocity = new Vector3(0, Velocity.Y, 0);
-		// 	// Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, (float)delta * 5), Velocity.Y, Velocity.Z);
-		// 	Velocity = new Vector3(Mathf.Lerp(Velocity.X, 0f, 1f), Velocity.Y, Mathf.Lerp(Velocity.Z, 0f, 1f));
-		// } else if (Actor.StateMachine.CurrentState is not Airborne) {
-		// 	// Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
-		// }
-
-		Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
-
 		Actor.Velocity = Velocity;
 		Actor.MoveAndSlide();
 	}
 
-	public void ActuallyJump() {
-		// Velocity = new Vector3(Velocity.X, JumpSpeed, Velocity.Z);
+	public void SetVelocity(Vector3 Direction, float value, bool additive = true) {
+		Direction *= value;
+		if (additive) Velocity += Direction;
+		// else not implemented idgaf 
 	}
 
-	public void CheckIfAirborne() {
-		if (Actor.VerticalStateMachine.CurrentState is not Airborne) return;
+	public void ApplyVelocity() {
+		Velocity = new Vector3(MoveDirection.X * ActualSpeed, Velocity.Y, MoveDirection.Z * ActualSpeed);
+	}
 
-		Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
-		// Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 1);
-		Actor.AnimationTree.Set("parameters/falling_idle/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+	public void ApplyGravity(float delta) {
+		Velocity = new Vector3(Velocity.X, Velocity.Y - Gravity * delta, Velocity.Z);
 	}
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://irt40o1iuj3"]
+[gd_scene load_steps=50 format=3 uid="uid://irt40o1iuj3"]
 
 [ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_dglea"]
 [ext_resource type="PackedScene" uid="uid://d0uq8r4ct8esh" path="res://scenes/components/movement_component.tscn" id="2_20tmq"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://scripts/states/Idle.cs" id="5_v1gad"]
 [ext_resource type="Script" path="res://scripts/states/Walk.cs" id="6_ewa64"]
 [ext_resource type="Script" path="res://scripts/states/Run.cs" id="7_ycp2t"]
-[ext_resource type="Script" path="res://scripts/states/Grounded.cs" id="9_l40h5"]
 [ext_resource type="Script" path="res://scripts/states/Jump.cs" id="9_lhsns"]
 [ext_resource type="Script" path="res://scripts/states/Airborne.cs" id="10_vo1o2"]
 
@@ -10100,60 +10099,13 @@ _data = {
 "walk_right": SubResource("Animation_oyfbe")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_p0mam"]
-animation = &"locomotion_basic/falling_idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ud04b"]
-animation = &"locomotion_basic/running_jump"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_td14k"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y8xia"]
-advance_mode = 2
-advance_expression = "Actor.IsFalling()"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ycrvp"]
-advance_mode = 2
-advance_expression = "Actor.IsGrounded()"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_e8f5r"]
-advance_mode = 2
-advance_expression = "Actor.IsFalling()"
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ewra8"]
-states/End/position = Vector2(956, 100)
-states/locomotion_basic_falling_idle/node = SubResource("AnimationNodeAnimation_p0mam")
-states/locomotion_basic_falling_idle/position = Vector2(738, 100)
-states/locomotion_basic_running_jump/node = SubResource("AnimationNodeAnimation_ud04b")
-states/locomotion_basic_running_jump/position = Vector2(424, 26)
-transitions = ["Start", "locomotion_basic_running_jump", SubResource("AnimationNodeStateMachineTransition_td14k"), "locomotion_basic_running_jump", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_y8xia"), "locomotion_basic_falling_idle", "End", SubResource("AnimationNodeStateMachineTransition_ycrvp"), "Start", "locomotion_basic_falling_idle", SubResource("AnimationNodeStateMachineTransition_e8f5r")]
-graph_offset = Vector2(-2, -104)
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h6sgy"]
-animation = &"locomotion_basic/falling_idle"
-
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_4ui3h"]
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_vqoyx"]
+sync = true
 fadein_time = 0.2
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_owl24"]
-animation = &"locomotion_basic/idle"
-
-[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_fubg4"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bwcrg"]
-animation = &"locomotion_basic/run_front"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_18gj6"]
-animation = &"locomotion_basic/walk_front"
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_g78h8"]
+fadeout_time = 0.3
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vjxo7"]
 animation = &"locomotion_basic/running_jump"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_egoaf"]
-animation = &"locomotion_basic/falling_idle"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1vsfj"]
 animation = &"locomotion_basic/idle"
@@ -10207,60 +10159,38 @@ states/walk/position = Vector2(508, 155)
 transitions = ["run", "idle", SubResource("AnimationNodeStateMachineTransition_77oow"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_o7big"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_yme34"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_4t8xk"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_qwdvj"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_jp5l5"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_k1cn3")]
 graph_offset = Vector2(-61, -79)
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b3vei"]
-animation = &"locomotion_basic/running_jump"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j24bg"]
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_efaeq"]
 states/End/position = Vector2(1014, 92)
 states/Start/position = Vector2(151, 92)
-states/falling/node = SubResource("AnimationNodeAnimation_egoaf")
-states/falling/position = Vector2(704, 178.746)
 states/iwr_state_machine/node = SubResource("AnimationNodeStateMachine_k334k")
 states/iwr_state_machine/position = Vector2(425, 92)
-states/jump/node = SubResource("AnimationNodeAnimation_b3vei")
-states/jump/position = Vector2(704, 9)
 transitions = ["Start", "iwr_state_machine", SubResource("AnimationNodeStateMachineTransition_j24bg")]
-graph_offset = Vector2(45, -64.2541)
+graph_offset = Vector2(-16, -103.254)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7ube8"]
-graph_offset = Vector2(-26.7105, -408.627)
-nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_ewra8")
-nodes/StateMachine/position = Vector2(180, 0)
-nodes/faling_idle/node = SubResource("AnimationNodeAnimation_h6sgy")
-nodes/faling_idle/position = Vector2(640, 240)
-nodes/falling_idle/node = SubResource("AnimationNodeOneShot_4ui3h")
-nodes/falling_idle/position = Vector2(940, -20)
-nodes/free_idle/node = SubResource("AnimationNodeAnimation_owl24")
-nodes/free_idle/position = Vector2(-400, -260)
-nodes/free_iwr_blend/node = SubResource("AnimationNodeBlend3_fubg4")
-nodes/free_iwr_blend/position = Vector2(-40, -180)
-nodes/free_run/node = SubResource("AnimationNodeAnimation_bwcrg")
-nodes/free_run/position = Vector2(-460, -20)
-nodes/free_walk/node = SubResource("AnimationNodeAnimation_18gj6")
-nodes/free_walk/position = Vector2(-460, -140)
-nodes/jump_time_scale/node = SubResource("AnimationNodeTimeScale_g78h8")
-nodes/jump_time_scale/position = Vector2(420, 200)
-nodes/output/position = Vector2(620, -200)
+graph_offset = Vector2(31.7441, -296.88)
+nodes/jump_shot/node = SubResource("AnimationNodeOneShot_vqoyx")
+nodes/jump_shot/position = Vector2(520, -260)
+nodes/output/position = Vector2(740, -260)
 nodes/run_jump/node = SubResource("AnimationNodeAnimation_vjxo7")
-nodes/run_jump/position = Vector2(80, 280)
+nodes/run_jump/position = Vector2(440, -40)
 nodes/state_machine/node = SubResource("AnimationNodeStateMachine_efaeq")
 nodes/state_machine/position = Vector2(340, -260)
-node_connections = [&"falling_idle", 1, &"faling_idle", &"free_iwr_blend", 0, &"free_idle", &"free_iwr_blend", 1, &"free_walk", &"free_iwr_blend", 2, &"free_run", &"jump_time_scale", 0, &"run_jump", &"output", 0, &"state_machine"]
+node_connections = [&"jump_shot", 0, &"state_machine", &"jump_shot", 1, &"run_jump", &"output", 0, &"jump_shot"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3dldm"]
 radius = 0.15
 height = 1.9
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Model", "MovementComponent", "CameraController", "MovementStateMachine", "VerticalStateMachine", "AnimationTree", "AnimationPlayer")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Model", "MovementComponent", "CameraController", "MovementStateMachine", "AnimationTree", "AnimationPlayer")]
 script = ExtResource("1_dglea")
 Model = NodePath("Model")
 MovementComponent = NodePath("MovementController")
 CameraController = NodePath("CameraController")
 MovementStateMachine = NodePath("MovementStateMachine")
-VerticalStateMachine = NodePath("VerticalStateMachine")
 AnimationTree = NodePath("AnimationTree")
 AnimationPlayer = NodePath("AnimationPlayer")
 
@@ -10274,7 +10204,7 @@ libraries = {
 "locomotion_basic": SubResource("AnimationLibrary_gt2wv")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="." node_paths=PackedStringArray("VerticalStateMachine", "MovementStateMachine", "MovementComponent", "Actor")]
+[node name="AnimationTree" type="AnimationTree" parent="." node_paths=PackedStringArray("MovementStateMachine", "MovementComponent", "Actor")]
 root_node = NodePath("../Model/RootNode")
 root_motion_track = NodePath("%GeneralSkeleton:Root")
 libraries = {
@@ -10283,13 +10213,10 @@ libraries = {
 tree_root = SubResource("AnimationNodeBlendTree_7ube8")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/falling_idle/active = false
-parameters/falling_idle/internal_active = false
-parameters/falling_idle/request = 0
-parameters/free_iwr_blend/blend_amount = -1.0
-parameters/jump_time_scale/scale = 1.0
+parameters/jump_shot/active = false
+parameters/jump_shot/internal_active = false
+parameters/jump_shot/request = 0
 script = ExtResource("4_jk524")
-VerticalStateMachine = NodePath("../VerticalStateMachine")
 MovementStateMachine = NodePath("../MovementStateMachine")
 MovementComponent = NodePath("../MovementController")
 Actor = NodePath("..")
@@ -10303,25 +10230,6 @@ shape = SubResource("CapsuleShape3D_3dldm")
 [node name="MovementController" parent="." node_paths=PackedStringArray("Actor") instance=ExtResource("2_20tmq")]
 Actor = NodePath("..")
 
-[node name="VerticalStateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
-script = ExtResource("4_rpni3")
-InitialState = NodePath("Airborne")
-
-[node name="Jump" type="Node" parent="VerticalStateMachine" node_paths=PackedStringArray("Actor", "_states")]
-script = ExtResource("9_lhsns")
-Actor = NodePath("../..")
-_states = [NodePath("../Airborne")]
-
-[node name="Airborne" type="Node" parent="VerticalStateMachine" node_paths=PackedStringArray("Actor", "_states")]
-script = ExtResource("10_vo1o2")
-Actor = NodePath("../..")
-_states = [NodePath("../Grounded")]
-
-[node name="Grounded" type="Node" parent="VerticalStateMachine" node_paths=PackedStringArray("Actor", "_states")]
-script = ExtResource("9_l40h5")
-Actor = NodePath("../..")
-_states = [NodePath("../Airborne"), NodePath("../Jump")]
-
 [node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
 script = ExtResource("4_rpni3")
 InitialState = NodePath("Idle")
@@ -10329,17 +10237,27 @@ InitialState = NodePath("Idle")
 [node name="Idle" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("Actor", "_states")]
 script = ExtResource("5_v1gad")
 Actor = NodePath("../..")
-_states = [NodePath("../Walk"), NodePath("../Run")]
+_states = [NodePath("../Walk"), NodePath("../Run"), NodePath("../Jump"), NodePath("../Airborne")]
 
 [node name="Walk" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("Actor", "_states")]
 script = ExtResource("6_ewa64")
 Actor = NodePath("../..")
-_states = [NodePath("../Idle"), NodePath("../Run")]
+_states = [NodePath("../Idle"), NodePath("../Run"), NodePath("../Jump"), NodePath("../Airborne")]
 
 [node name="Run" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("Actor", "_states")]
 script = ExtResource("7_ycp2t")
 Actor = NodePath("../..")
-_states = [NodePath("../Idle"), NodePath("../Walk")]
+_states = [NodePath("../Idle"), NodePath("../Walk"), NodePath("../Jump"), NodePath("../Airborne")]
+
+[node name="Jump" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("Actor", "_states")]
+script = ExtResource("9_lhsns")
+Actor = NodePath("../..")
+_states = [NodePath("../Airborne")]
+
+[node name="Airborne" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("Actor", "_states")]
+script = ExtResource("10_vo1o2")
+Actor = NodePath("../..")
+_states = [NodePath("../Idle"), NodePath("../Walk"), NodePath("../Run")]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

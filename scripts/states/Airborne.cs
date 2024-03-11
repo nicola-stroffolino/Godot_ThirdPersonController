@@ -11,23 +11,18 @@ public partial class Airborne : State {
 			JumpBufferCounter = 0;
 			JumpQueued = false;
 		}
-		if (Actor.VerticalStateMachine.PreviousState is not Jump) {
-			Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 1);
-		}
 	}
 
 	public override void Exit() {
 		var v = Actor.MovementComponent.Velocity;
 		Actor.MovementComponent.Velocity = new Vector3(v.X, 0, v.Z);
 
-		// Actor.AnimationTree.Set("parameters/falling_idle/blend_amount", 0);
-		Actor.AnimationTree.Set("parameters/falling_idle/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
+		Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
 	}
 
 	public override State StatePhysicsProcess(float delta) {
-		var v = Actor.MovementComponent.Velocity;
-		var g = Actor.MovementComponent.Gravity;
-		Actor.MovementComponent.Velocity = new Vector3(v.X, v.Y - g * delta, v.Z);
+		Actor.MovementComponent.ApplyVelocity();
+		Actor.MovementComponent.ApplyGravity(delta);
 
 		return null;
 	}
@@ -48,7 +43,11 @@ public partial class Airborne : State {
 			}
 		}
 
-		if (Actor.IsOnFloor()) return GetState<Grounded>();
+		if (Actor.IsOnFloor()) {
+			if (Actor.WantsToStandStill()) return GetState<Idle>();
+			if (Actor.WantsToWalk()) return GetState<Walk>();
+			if (Actor.WantsToRun()) return GetState<Run>();
+		}
 
 		return null;
 	}
