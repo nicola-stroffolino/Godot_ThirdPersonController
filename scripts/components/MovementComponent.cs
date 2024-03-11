@@ -4,7 +4,7 @@ using Godot;
 [GlobalClass]
 public partial class MovementComponent : Node {
 	[Export]
-	public Player Actor { get; private set; }
+	public GameEntity3D Actor { get; private set; }
 	[Export]
 	public int WalkingSpeed { get; set; } = 2; //km/h
 	[Export]
@@ -25,15 +25,6 @@ public partial class MovementComponent : Node {
 	public override void _Ready() {
 		Gravity = 2 * JumpHeight / (TimeToJumpPeak * TimeToJumpPeak); //m/s^2;
 		JumpSpeed = Gravity * TimeToJumpPeak; //m/s
-	}
-
-	public override void _Process(double delta) {
-		GetNode<Label>("../Control/Label").Text = $@"Input Direction: {Direction}
-			Move Direction: {MoveDirection}
-			Velocity: {Velocity}
-
-			Target Look: 
-		";
 	}
 
 	public override void _PhysicsProcess(double delta) {

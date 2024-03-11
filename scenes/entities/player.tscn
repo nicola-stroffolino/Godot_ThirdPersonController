@@ -1,11 +1,10 @@
-[gd_scene load_steps=50 format=3 uid="uid://irt40o1iuj3"]
+[gd_scene load_steps=49 format=3 uid="uid://irt40o1iuj3"]
 
 [ext_resource type="Script" path="res://scripts/entities/Player.cs" id="1_dglea"]
 [ext_resource type="PackedScene" uid="uid://d0uq8r4ct8esh" path="res://scenes/components/movement_component.tscn" id="2_20tmq"]
 [ext_resource type="PackedScene" uid="uid://cr8w0voeeqart" path="res://assets/models/player.fbx" id="2_etwa7"]
 [ext_resource type="PackedScene" uid="uid://c4004cd4ct216" path="res://scenes/components/camera_component.tscn" id="2_u67rq"]
 [ext_resource type="Script" path="res://scripts/Model.cs" id="3_mc257"]
-[ext_resource type="Script" path="res://scripts/AnimationHandler.cs" id="4_jk524"]
 [ext_resource type="Script" path="res://scripts/StateMachine.cs" id="4_rpni3"]
 [ext_resource type="Script" path="res://scripts/states/Idle.cs" id="5_v1gad"]
 [ext_resource type="Script" path="res://scripts/states/Walk.cs" id="6_ewa64"]
@@ -10185,11 +10184,11 @@ node_connections = [&"jump_shot", 0, &"state_machine", &"jump_shot", 1, &"run_ju
 radius = 0.15
 height = 1.9
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Model", "MovementComponent", "CameraController", "MovementStateMachine", "AnimationTree", "AnimationPlayer")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CameraController", "Model", "MovementComponent", "MovementStateMachine", "AnimationTree", "AnimationPlayer")]
 script = ExtResource("1_dglea")
+CameraController = NodePath("CameraController")
 Model = NodePath("Model")
 MovementComponent = NodePath("MovementController")
-CameraController = NodePath("CameraController")
 MovementStateMachine = NodePath("MovementStateMachine")
 AnimationTree = NodePath("AnimationTree")
 AnimationPlayer = NodePath("AnimationPlayer")
@@ -10204,7 +10203,7 @@ libraries = {
 "locomotion_basic": SubResource("AnimationLibrary_gt2wv")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="." node_paths=PackedStringArray("MovementStateMachine", "MovementComponent", "Actor")]
+[node name="AnimationTree" type="AnimationTree" parent="."]
 root_node = NodePath("../Model/RootNode")
 root_motion_track = NodePath("%GeneralSkeleton:Root")
 libraries = {
@@ -10216,10 +10215,6 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/jump_shot/active = false
 parameters/jump_shot/internal_active = false
 parameters/jump_shot/request = 0
-script = ExtResource("4_jk524")
-MovementStateMachine = NodePath("../MovementStateMachine")
-MovementComponent = NodePath("../MovementController")
-Actor = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 3.25963e-09, 0, -9.31323e-10, 1, 7.45058e-09, 0, 0, 1, 1.02096e-10, 0.929321, 0)

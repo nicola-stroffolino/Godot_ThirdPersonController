@@ -8,7 +8,7 @@ public partial class State : Node {
 	// [Signal]
 	// public delegate void TransitionedEventHandler();
 	[Export]
-	public Player Actor { get; set; }
+	public GameEntity3D Actor { get; set; }
 	[Export]
 	private Array<State> _states;
 	public Tween Tween { get; set; } = null;
