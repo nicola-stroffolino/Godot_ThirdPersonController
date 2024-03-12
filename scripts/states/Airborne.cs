@@ -14,15 +14,15 @@ public partial class Airborne : State {
 	}
 
 	public override void Exit() {
-		var v = Actor.MovementComponent.Velocity;
-		Actor.MovementComponent.Velocity = new Vector3(v.X, 0, v.Z);
+		var v = Actor.Movement.Velocity;
+		Actor.Movement.Velocity = new Vector3(v.X, 0, v.Z);
 
 		Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
 	}
 
 	public override State StatePhysicsProcess(float delta) {
-		Actor.MovementComponent.ApplyVelocity();
-		Actor.MovementComponent.ApplyGravity(delta);
+		Actor.Movement.ApplyVelocity();
+		Actor.Movement.ApplyGravity(delta);
 
 		return null;
 	}

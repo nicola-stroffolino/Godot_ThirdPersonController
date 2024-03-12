@@ -2,7 +2,7 @@ using System;
 using Godot;
 
 [GlobalClass]
-public partial class MovementComponent : Node {
+public partial class MovementController : Node {
 	[Export]
 	public GameEntity3D Actor { get; private set; }
 	[Export]

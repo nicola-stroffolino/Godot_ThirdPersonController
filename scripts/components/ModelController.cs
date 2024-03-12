@@ -1,17 +1,17 @@
 using Godot;
 using System;
 
-public partial class Model : Node3D {
+public partial class ModelController : Node3D {
 	[Export]
-	public MovementComponent MovementComponent { get; set; }
+	public MovementController Movement { get; set; }
 	public float LookingRotation { get; set; }
 
 	public override void _Ready() {
-		LookingRotation = Mathf.Pi;
+		LookingRotation = Rotation.Y;
 	}
 
 	public override void _Process(double delta) {
-		var mv = MovementComponent;
+		var mv = Movement;
 		if (mv.Direction != Vector3.Zero) {
 			var n = Mathf.RadToDeg(Mathf.Atan2(mv.MoveDirection.X, mv.MoveDirection.Z));
 			var o = Mathf.RadToDeg(LookingRotation);

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://d0uq8r4ct8esh" path="res://scenes/components/movement_component.tscn" id="2_20tmq"]
 [ext_resource type="PackedScene" uid="uid://cr8w0voeeqart" path="res://assets/models/player.fbx" id="2_etwa7"]
 [ext_resource type="PackedScene" uid="uid://c4004cd4ct216" path="res://scenes/components/camera_component.tscn" id="2_u67rq"]
-[ext_resource type="Script" path="res://scripts/Model.cs" id="3_mc257"]
+[ext_resource type="Script" path="res://scripts/components/ModelController.cs" id="3_5p7ud"]
 [ext_resource type="Script" path="res://scripts/StateMachine.cs" id="4_rpni3"]
 [ext_resource type="Script" path="res://scripts/states/Idle.cs" id="5_v1gad"]
 [ext_resource type="Script" path="res://scripts/states/Walk.cs" id="6_ewa64"]
@@ -10170,7 +10170,6 @@ transitions = ["Start", "iwr_state_machine", SubResource("AnimationNodeStateMach
 graph_offset = Vector2(-16, -103.254)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7ube8"]
-graph_offset = Vector2(31.7441, -296.88)
 nodes/jump_shot/node = SubResource("AnimationNodeOneShot_vqoyx")
 nodes/jump_shot/position = Vector2(520, -260)
 nodes/output/position = Vector2(740, -260)
@@ -10184,18 +10183,18 @@ node_connections = [&"jump_shot", 0, &"state_machine", &"jump_shot", 1, &"run_ju
 radius = 0.15
 height = 1.9
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CameraController", "Model", "MovementComponent", "MovementStateMachine", "AnimationTree", "AnimationPlayer")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CameraController", "Model", "Movement", "MovementStateMachine", "AnimationTree", "AnimationPlayer")]
 script = ExtResource("1_dglea")
 CameraController = NodePath("CameraController")
 Model = NodePath("Model")
-MovementComponent = NodePath("MovementController")
+Movement = NodePath("MovementController")
 MovementStateMachine = NodePath("MovementStateMachine")
 AnimationTree = NodePath("AnimationTree")
 AnimationPlayer = NodePath("AnimationPlayer")
 
-[node name="Model" parent="." node_paths=PackedStringArray("MovementComponent") instance=ExtResource("2_etwa7")]
-script = ExtResource("3_mc257")
-MovementComponent = NodePath("../MovementController")
+[node name="Model" parent="." node_paths=PackedStringArray("Movement") instance=ExtResource("2_etwa7")]
+script = ExtResource("3_5p7ud")
+Movement = NodePath("../MovementController")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Model/RootNode")

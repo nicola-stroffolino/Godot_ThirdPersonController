@@ -5,7 +5,7 @@ public partial class Jump : State {
 	public override void Enter() {	
 		GD.Print("jump");
 
-		Actor.MovementComponent.SetVelocity(Vector3.Up, Actor.MovementComponent.JumpSpeed);
+		Actor.Movement.SetVelocity(Vector3.Up, Actor.Movement.JumpSpeed);
 		Actor.AnimationTree.Set("parameters/jump_shot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
 	}
 

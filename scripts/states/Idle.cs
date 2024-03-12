@@ -5,11 +5,11 @@ public partial class Idle : State {
 	public override void Enter() {
 		GD.Print("idle " + GetTree().Root.GetChild(0).Name);
 		
-		Actor.MovementComponent.ActualSpeed = 0;
+		Actor.Movement.ActualSpeed = 0;
 	}
 
 	public override State StatePhysicsProcess(float delta) {
-		Actor.MovementComponent.ApplyVelocity();
+		Actor.Movement.ApplyVelocity();
 		return null;
 	}
 
