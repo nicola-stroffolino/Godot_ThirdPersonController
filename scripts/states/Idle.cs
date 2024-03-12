@@ -3,7 +3,7 @@ using System;
 
 public partial class Idle : State {	
 	public override void Enter() {
-		GD.Print("idle " + GetTree().Root.GetChild(0).Name);
+		GD.Print("idle");
 		
 		Actor.Movement.ActualSpeed = 0;
 	}
