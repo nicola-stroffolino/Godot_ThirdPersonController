@@ -18,6 +18,9 @@ public partial class GameEntity3D : CharacterBody3D {
 	[Export]
 	public GameEntity3D LockedTarget { get; set; }
 
+	public bool IsLockedOn { get; set; } = false;
+	public float FacingAngle { get; set; }
+
 	public virtual bool WantsToStandStill() => false;
 	public virtual bool WantsToWalk() => false;
 	public virtual bool WantsToRun() => false;

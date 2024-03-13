@@ -6,18 +6,13 @@ public partial class Player : GameEntity3D {
 	[Export]
 	public CameraController CameraController { get; private set; }
 
-	public float LookingRotation { get; set; }
-	public bool IsLockedOn { get; set; } = false;
-
 	public override void _Ready(){
-		LookingRotation = Rotation.Y;
+		FacingAngle = Rotation.Y;
 	}
 
 	public override void _Process(double delta) {
 		
 	}
-	
-	int peppe = 0;
 
 	public override void _PhysicsProcess(double delta) {
 		if (Input.IsActionJustPressed("lock_to_target")) IsLockedOn = !IsLockedOn;
@@ -27,34 +22,31 @@ public partial class Player : GameEntity3D {
 		InputDirection.Z = Input.GetActionStrength("move_backward") - Input.GetActionStrength("move_forward");
 
 		Movement.Direction = InputDirection;
+		var lockedFacingAngle = Mathf.Atan2(GlobalPosition.X - LockedTarget.GlobalPosition.X, GlobalPosition.Z - LockedTarget.GlobalPosition.Z);
 		if (IsLockedOn) {
-			Movement.MoveDirection = InputDirection.Rotated(Vector3.Up, 
-				Mathf.Atan2(
-					GlobalPosition.X - LockedTarget.GlobalPosition.X, GlobalPosition.Z - LockedTarget.GlobalPosition.Z
-				)
-			).Normalized();
+			Movement.MoveDirection = InputDirection.Rotated(Vector3.Up, lockedFacingAngle).Normalized();
 		} else {
 			Movement.MoveDirection = InputDirection.Rotated(Vector3.Up, CameraController.GetHRot()).Normalized();
 		}
 
 		if (Movement.Direction != Vector3.Zero) {
 			var n = Mathf.RadToDeg(Mathf.Atan2(Movement.MoveDirection.X, Movement.MoveDirection.Z));
-			var o = Mathf.RadToDeg(LookingRotation);
+			var o = Mathf.RadToDeg(FacingAngle);
 
 			var angleDifference = Mathf.Abs(n - o);
 			if (angleDifference > 180) angleDifference = 360 - angleDifference;
 			
 			// if (n != o) GD.Print($"New: {n} - Old: {o} - Result: {angleDifference}");
 
-			LookingRotation = Mathf.Atan2(Movement.MoveDirection.X, Movement.MoveDirection.Z); 
+			FacingAngle = Mathf.Atan2(Movement.MoveDirection.X, Movement.MoveDirection.Z); 
 		}
 
 		Rotation = new() {
 			Y = (float) Mathf.Wrap(
 				Mathf.LerpAngle(
 					Rotation.Y,
-					LookingRotation,
-					delta * 10 // Actor.StateMachine.CurrentState is Airborne ? 0f : 1f 
+					IsLockedOn ? lockedFacingAngle + Mathf.Pi : FacingAngle,
+					delta * 10
 				),
 				-Math.PI,
 				Math.PI
@@ -65,9 +57,12 @@ public partial class Player : GameEntity3D {
 			Move Direction: {Movement.MoveDirection}
 			Velocity: {Movement.Velocity}
 
-			Target Look: {LookingRotation}
+			Target Look: {FacingAngle}
 			Locked On Target: {IsLockedOn}
 		";
+
+		AnimationTree.Set("parameters/state_machine/strafe_state_machine/walk_blend/blend_position", new Vector2(-InputDirection.X, -InputDirection.Z)); 
+		AnimationTree.Set("parameters/state_machine/strafe_state_machine/run_blend/blend_position", new Vector2(-InputDirection.X, -InputDirection.Z));
 	}
 
 	public override bool WantsToStandStill() => Movement.Direction == Vector3.Zero;
