@@ -22,11 +22,14 @@ public partial class Player : GameEntity3D {
 		InputDirection.Z = Input.GetActionStrength("move_backward") - Input.GetActionStrength("move_forward");
 
 		Movement.Direction = InputDirection;
-		var lockedFacingAngle = Mathf.Atan2(GlobalPosition.X - LockedTarget.GlobalPosition.X, GlobalPosition.Z - LockedTarget.GlobalPosition.Z);
 		if (IsLockedOn) {
-			Movement.MoveDirection = InputDirection.Rotated(Vector3.Up, lockedFacingAngle).Normalized();
+			var targetDirection = GlobalPosition - LockedTarget.GlobalPosition;
+			Movement.MoveDirection = InputDirection.Rotated(Vector3.Up, Mathf.Atan2(targetDirection.X, targetDirection.Z)).Normalized();
+			FacingAngle = Mathf.Atan2(-targetDirection.X, -targetDirection.Z);
 		} else {
-			Movement.MoveDirection = InputDirection.Rotated(Vector3.Up, CameraController.GetHRot()).Normalized();
+			var cameraDirection = CameraController.GetHRot();
+			Movement.MoveDirection = InputDirection.Rotated(Vector3.Up, cameraDirection).Normalized();
+			FacingAngle = Mathf.Atan2(Movement.MoveDirection.X, Movement.MoveDirection.Z);
 		}
 
 		if (Movement.Direction != Vector3.Zero) {
@@ -36,16 +39,17 @@ public partial class Player : GameEntity3D {
 			var angleDifference = Mathf.Abs(n - o);
 			if (angleDifference > 180) angleDifference = 360 - angleDifference;
 			
-			// if (n != o) GD.Print($"New: {n} - Old: {o} - Result: {angleDifference}");
+			if (n != o) GD.Print($"New: {n} - Old: {o} - Result: {angleDifference}");
 
-			FacingAngle = Mathf.Atan2(Movement.MoveDirection.X, Movement.MoveDirection.Z); 
+			// FacingAngle = Mathf.Atan2(Movement.MoveDirection.X, Movement.MoveDirection.Z); 
 		}
 
 		Rotation = new() {
 			Y = (float) Mathf.Wrap(
 				Mathf.LerpAngle(
 					Rotation.Y,
-					IsLockedOn ? lockedFacingAngle + Mathf.Pi : FacingAngle,
+					// IsLockedOn ? lockedFacingAngle + Mathf.Pi : FacingAngle,
+					FacingAngle + Mathf.Pi,
 					delta * 10
 				),
 				-Math.PI,

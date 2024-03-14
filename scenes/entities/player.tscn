@@ -10288,10 +10288,11 @@ AnimationTree = NodePath("AnimationTree")
 AnimationPlayer = NodePath("AnimationPlayer")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73513, 0.0967671)
-target_position = Vector3(0, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+target_position = Vector3(0, 0, -1)
 
 [node name="Model" parent="." node_paths=PackedStringArray("Actor", "Movement") instance=ExtResource("2_etwa7")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("3_5p7ud")
 Actor = NodePath("..")
 Movement = NodePath("../MovementController")
