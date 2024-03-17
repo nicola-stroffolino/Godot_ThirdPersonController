@@ -23,19 +23,11 @@ public partial class CameraController : Node3D {
 		VCamRotation = Actor.RotationDegrees.X;
 	}
 
-	public override void _Input(InputEvent @event) {
-		if (@event is not InputEventMouseMotion mm || Input.MouseMode != Input.MouseModeEnum.Captured) return;
-
-		if (!Actor.IsLockedOn) HCamRotation -= mm.Relative.X * HSensitivity;
-		VCamRotation -= mm.Relative.Y * VSensitivity;
-		VCamRotation = Mathf.Clamp(VCamRotation, VCam_Min, VCam_Max);
-	}
-
 	public override void _Process(double delta) {
-		if (Actor.IsLockedOn) HCamRotation = Mathf.RadToDeg(Mathf.Atan2(GlobalPosition.X - Actor.LockedTarget.GlobalPosition.X, GlobalPosition.Z - Actor.LockedTarget.GlobalPosition.Z));
 		GetNode<Node3D>("Horizontal").RotationDegrees = new Vector3 {
 			Y = HCamRotation
 		};
+		VCamRotation = Mathf.Clamp(VCamRotation, VCam_Min, VCam_Max);
 		GetNode<Node3D>("Horizontal/Vertical").RotationDegrees = new Vector3 {
 			X = VCamRotation
 		};

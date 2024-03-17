@@ -18,4 +18,7 @@ public partial class State : Node {
 	public virtual void Exit() {}
 	public virtual State StateProcess(float delta) => null;
 	public virtual State StatePhysicsProcess(float delta) => null;
+	public virtual State StateInput(InputEvent @event) => null;
+	public virtual State StateUnhandledInput(InputEvent @event) => null;
+	public virtual State StateUnhandledKeyInput(InputEvent @event) => null;
 }

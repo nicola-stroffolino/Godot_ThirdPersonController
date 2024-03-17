@@ -39,10 +39,25 @@ public partial class StateMachine : Node {
 		// CurrentState?.StateProcess((float)delta);
 	}
 
-	public override void _PhysicsProcess(double delta) 	{
+	public override void _PhysicsProcess(double delta) {
 		var newState = CurrentState.StatePhysicsProcess((float)delta);
 		if (newState is not null) ChangeState(newState);
 		// CurrentState?.StatePhysicsProcess((float)delta);
+	}
+
+	public override void _Input(InputEvent @event) {
+		var newState = CurrentState.StateInput(@event);
+		if (newState is not null) ChangeState(newState);
+	}
+
+	public override void _UnhandledInput(InputEvent @event) {
+		var newState = CurrentState.StateUnhandledInput(@event);
+		if (newState is not null) ChangeState(newState);
+	}
+
+	public override void _UnhandledKeyInput(InputEvent @event) {
+		var newState = CurrentState.StateUnhandledKeyInput(@event);
+		if (newState is not null) ChangeState(newState);
 	}
 
 	public void ChangeState(State newState) {
