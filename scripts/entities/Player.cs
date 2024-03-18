@@ -10,16 +10,16 @@ public partial class Player : GameEntity3D {
 		FacingAngle = Rotation.Y;
 	}
 
-    public override void _Input(InputEvent @event) {
-        if (Input.IsActionJustPressed("lock_to_target")) IsLockedOn = !IsLockedOn;
+	public override void _Input(InputEvent @event) {
+		if (@event.IsActionPressed("lock_to_target")) IsLockedOn = !IsLockedOn;
 
 		var InputDirection = Vector3.Zero;
 		InputDirection.X = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
 		InputDirection.Z = Input.GetActionStrength("move_backward") - Input.GetActionStrength("move_forward");
 		Movement.Direction = InputDirection;
-    }
+	}
 
-    public override void _PhysicsProcess(double delta) {
+	public override void _PhysicsProcess(double delta) {
 		if (IsLockedOn) {
 			var targetDirection = GlobalPosition - LockedTarget.GlobalPosition;
 			Movement.MoveDirection = Movement.Direction.Rotated(Vector3.Up, Mathf.Atan2(targetDirection.X, targetDirection.Z)).Normalized();

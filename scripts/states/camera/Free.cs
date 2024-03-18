@@ -2,6 +2,11 @@ using Godot;
 using System;
 
 public partial class Free : CameraState {
+
+	public override void Enter() {
+		CameraController.VCamRotation = 0;
+	}
+
 	public override State StateProcess(float delta) {
 		CameraController.HCamRotation = CameraController.HCamRotation - Math.Sign(CameraController.Actor.Movement.Direction.X) * delta * 50;
 

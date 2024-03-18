@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cl0vr3cbxgnph"]
+[gd_scene load_steps=12 format=3 uid="uid://cl0vr3cbxgnph"]
 
 [ext_resource type="Texture2D" uid="uid://bdw2j5kejiegc" path="res://assets/textures/grids/Dark/texture_01.png" id="1_t768o"]
 [ext_resource type="Script" path="res://scripts/environment/Main.cs" id="1_yqcr7"]
@@ -30,10 +30,6 @@ uv1_triplanar = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oe4pp"]
 albedo_texture = ExtResource("2_sxw0v")
 uv1_triplanar = true
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_n8asg"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_sfsdt"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yqcr7")
@@ -77,25 +73,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 2)
 material_override = SubResource("StandardMaterial3D_oe4pp")
 use_collision = true
 
+[node name="CSGBox3D7" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.50726, 5.59888, -6.9697)
+material_override = SubResource("StandardMaterial3D_oe4pp")
+use_collision = true
+size = Vector3(1.98547, 10.1978, 2.17175)
+
 [node name="CSGBox3D6" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.866026, -0.5, 0, 0.5, 0.866026, -8, 0.383, 1.433)
 material_override = SubResource("StandardMaterial3D_oe4pp")
 use_collision = true
 size = Vector3(1, 2, 1)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35805, 2.61976, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("SphereShape3D_n8asg")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D/CollisionShape3D"]
-mesh = SubResource("SphereMesh_sfsdt")
-
 [node name="Player" parent="." node_paths=PackedStringArray("CameraController", "LockedTarget") instance=ExtResource("3_uo23w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 CameraController = NodePath("../CameraController")
-LockedTarget = NodePath("../Enemy")
+LockedTarget = NodePath("../EnemyBig")
 
 [node name="CameraController" parent="." node_paths=PackedStringArray("Actor") instance=ExtResource("5_f2452")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -114,4 +107,4 @@ transform = Transform3D(0.938722, 0, -0.344676, 0, 1, 0, 0.344676, 0, 0.938722, 
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.07871, 1.0849, -2.6353)
 
 [node name="EnemyBig" parent="." instance=ExtResource("5_yl8hi")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -5.55502, 1.56448, -6.68585)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -7.53291, 11.1963, -6.903)
