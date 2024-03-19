@@ -5,8 +5,6 @@ using System;
 public partial class GameEntity3D : CharacterBody3D {
 	[ExportGroup("Node References")]
 	[Export]
-	public ModelController Model { get; private set; }
-	[Export]
 	public MovementController Movement { get; private set; }
 	[Export]
 	public StateMachine MovementStateMachine { get; private set; }

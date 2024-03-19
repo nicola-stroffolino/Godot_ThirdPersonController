@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cl0vr3cbxgnph"]
+[gd_scene load_steps=14 format=3 uid="uid://cl0vr3cbxgnph"]
 
 [ext_resource type="Texture2D" uid="uid://bdw2j5kejiegc" path="res://assets/textures/grids/Dark/texture_01.png" id="1_t768o"]
 [ext_resource type="Script" path="res://scripts/environment/Main.cs" id="1_yqcr7"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://irt40o1iuj3" path="res://scenes/entities/player.tscn" id="3_uo23w"]
 [ext_resource type="PackedScene" uid="uid://c4004cd4ct216" path="res://scenes/components/camera_component.tscn" id="5_f2452"]
 [ext_resource type="PackedScene" uid="uid://c02br77ek7dbd" path="res://scenes/entities/enemy_generic.tscn" id="5_yl8hi"]
+[ext_resource type="Script" path="res://scripts/components/TargetLockController.cs" id="6_3y1my"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cs5sr"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -30,6 +31,9 @@ uv1_triplanar = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oe4pp"]
 albedo_texture = ExtResource("2_sxw0v")
 uv1_triplanar = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_uveqy"]
+radius = 2.0
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yqcr7")
@@ -85,14 +89,21 @@ material_override = SubResource("StandardMaterial3D_oe4pp")
 use_collision = true
 size = Vector3(1, 2, 1)
 
-[node name="Player" parent="." node_paths=PackedStringArray("CameraController", "LockedTarget") instance=ExtResource("3_uo23w")]
+[node name="Player" parent="." node_paths=PackedStringArray("CameraController") instance=ExtResource("3_uo23w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 CameraController = NodePath("../CameraController")
-LockedTarget = NodePath("../EnemyBig")
 
 [node name="CameraController" parent="." node_paths=PackedStringArray("Actor") instance=ExtResource("5_f2452")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 Actor = NodePath("../Player")
+
+[node name="TargetLockController" type="Area3D" parent="." node_paths=PackedStringArray("Actor")]
+collision_mask = 3
+script = ExtResource("6_3y1my")
+Actor = NodePath("../Player")
+
+[node name="DetectionArea" type="CollisionShape3D" parent="TargetLockController"]
+shape = SubResource("SphereShape3D_uveqy")
 
 [node name="Enemy" parent="." instance=ExtResource("5_yl8hi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.30024, 0.636449, -4.95314)
