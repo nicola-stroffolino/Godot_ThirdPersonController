@@ -14,7 +14,7 @@ public partial class GameEntity3D : CharacterBody3D {
 	public AnimationPlayer AnimationPlayer { get; private set; }
 	[ExportGroup("Game References")]
 	[Export]
-	public GameEntity3D LockedTarget { get; set; }
+	public LockMarker LockedTarget { get; set; }
 
 	public bool IsLockedOn { get; set; } = false;
 	public float FacingAngle { get; set; }

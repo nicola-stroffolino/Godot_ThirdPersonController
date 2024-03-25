@@ -27,7 +27,14 @@ public partial class TargetLockController : Area3D {
 	}
 
 	public void OnBodyEntered(Node3D body) {
-		if (body.GetChildren().FirstOrDefault(child => child is LockMarker) is LockMarker lm) { // good, i guess ?
+		// good for now, later on the body as GameEntity3D 
+		// should be delegated of providing if it has a
+		// LockMarker as a child
+		if (
+			body.GetType() != Actor.GetType() 
+			&& body.GetChildren().FirstOrDefault(child => child is LockMarker) is LockMarker lm
+			&& lm != null
+		) {
 			PotentialTargets.Add(lm);
 		
 			GD.Print(body.Name + " has Entered.");
@@ -35,7 +42,12 @@ public partial class TargetLockController : Area3D {
 	}
 
 	public void OnBodyExited(Node3D body) {
-		if (body.GetChildren().FirstOrDefault(child => child is LockMarker) is LockMarker lm && PotentialTargets.Contains(lm)) {
+		if (
+			body.GetType() != Actor.GetType() 
+			&& body.GetChildren().FirstOrDefault(child => child is LockMarker) is LockMarker lm
+			&& lm != null
+			&& PotentialTargets.Contains(lm)
+		) {
 			PotentialTargets.Remove(lm);
 
 			GD.Print(body.Name + " has Exited.");
@@ -46,17 +58,20 @@ public partial class TargetLockController : Area3D {
 	// if locked send signal, player receives signal and changes rotation logic (OnTargetLocked)
 	public override void _Input(InputEvent @event) {
 		if (@event.IsActionPressed("lock_to_target")) {
-			var target = FindClosestTarget();
-			LockOnTarget(target);
+			Target = FindClosestTarget();
+			LockOnTarget(Target);
 		}
 	}
 
-	public GameEntity3D FindClosestTarget() {
-		// find some shit
-		return null;
+	public LockMarker FindClosestTarget() {
+		if (PotentialTargets.Count == 0) return null;
+
+		return PotentialTargets.MinBy(
+			target => Actor.GlobalPosition.DistanceTo(target.GlobalPosition)
+		);
 	}
 
-	public void LockOnTarget(GameEntity3D target) {
-		// do some shit
+	public void LockOnTarget(LockMarker target) {
+		Actor.LockedTarget = target;
 	}
 }
