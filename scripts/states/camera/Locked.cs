@@ -3,14 +3,19 @@ using System;
 
 public partial class Locked : CameraState {
 	public override State StateProcess(float delta) {
-		var lookingDirection = CameraController.GlobalPosition.DirectionTo(CameraController.Actor.LockedTarget.GlobalPosition);
+		var lookingDirection = CameraController.GlobalPosition.DirectionTo(Actor.LockedTarget.GlobalPosition);
 
-		CameraController.HCamRotation = Mathf.RadToDeg(Mathf.Atan2(-lookingDirection.X, -lookingDirection.Z));
-
-		// var deltaX = Math.Abs(CameraController.Actor.GlobalPosition.X - CameraController.Actor.LockedTarget.GlobalPosition.X);
-		// var deltaZ = Math.Abs(CameraController.Actor.GlobalPosition.Z - CameraController.Actor.LockedTarget.GlobalPosition.Z);
+		float newHCamRotation = Mathf.Atan2(-lookingDirection.X, -lookingDirection.Z);
+		CameraController.HCamRotation = Mathf.Wrap(
+			Mathf.LerpAngle(CameraController.HCamRotation, newHCamRotation, delta * 7), 
+			-Mathf.Pi, 
+			Mathf.Pi
+		);
+		
+		// var deltaX = Math.Abs(Actor.GlobalPosition.X - Actor.LockedTarget.GlobalPosition.X);
+		// var deltaZ = Math.Abs(Actor.GlobalPosition.Z - Actor.LockedTarget.GlobalPosition.Z);
 		// var hypotenuse = Math.Sqrt(deltaX * deltaX + deltaZ * deltaZ);
-		// var alpha = Mathf.Atan2(CameraController.Actor.GlobalPosition.Y - CameraController.Actor.LockedTarget.GlobalPosition.Y, hypotenuse);
+		// var alpha = Mathf.Atan2(Actor.GlobalPosition.Y - Actor.LockedTarget.GlobalPosition.Y, hypotenuse);
 		// CameraController.VCamRotation = (float)Mathf.RadToDeg(-alpha);
 
 		return null;

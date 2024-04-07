@@ -11,15 +11,24 @@ public partial class TargetLockController : Area3D {
 	[Export]
 	public int Radius { get; set; } = 7;
 
+	[Signal]
+	public delegate void TargetLockedEventHandler();
+
 	public CollisionShape3D DetectionArea { get; set; }
 	public Array<LockMarker> PotentialTargets { get; set; } = new();
+	private int _currentTargetIndex = -1;
+
 	
 	public override void _Ready() {
+		Connect(SignalName.TargetLocked, new Callable(Actor, Player.MethodName.OnTargetLocked));
+
 		DetectionArea = GetChild(0) as CollisionShape3D;
 		(DetectionArea.Shape as SphereShape3D).Radius = Radius;
 
 		Connect(SignalName.BodyEntered, new Callable(this, MethodName.OnBodyEntered));
 		Connect(SignalName.BodyExited, new Callable(this, MethodName.OnBodyExited));
+		
+		_currentTargetIndex = PotentialTargets.IndexOf(Target);
 	}
 
 	public override void _PhysicsProcess(double delta) {
@@ -58,8 +67,14 @@ public partial class TargetLockController : Area3D {
 	// if locked send signal, player receives signal and changes rotation logic (OnTargetLocked)
 	public override void _Input(InputEvent @event) {
 		if (@event.IsActionPressed("lock_to_target")) {
-			Target = FindClosestTarget();
+			if (Target is not null) Target = null;
+			else Target = FindClosestTarget();
+
 			LockOnTarget(Target);
+		}
+		if (Target is not null) {
+			if (@event.IsActionPressed("cycle_next_target")) CycleToTarget(1);
+			else if (@event.IsActionPressed("cycle_previous_target")) CycleToTarget(-1);
 		}
 	}
 
@@ -72,6 +87,15 @@ public partial class TargetLockController : Area3D {
 	}
 
 	public void LockOnTarget(LockMarker target) {
-		Actor.LockedTarget = target;
+		// Actor.LockedTarget = target;
+		Target = target;
+		EmitSignal(SignalName.TargetLocked, Target);
+	}
+	
+	private void CycleToTarget(int direction) {
+		if (PotentialTargets.Count == 0) return;
+
+		_currentTargetIndex = (_currentTargetIndex + direction + PotentialTargets.Count) % PotentialTargets.Count;
+		LockOnTarget(PotentialTargets[_currentTargetIndex]);
 	}
 }

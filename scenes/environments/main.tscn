@@ -97,6 +97,12 @@ CameraController = NodePath("../CameraController")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 Actor = NodePath("../Player")
 
+[node name="Free" parent="CameraController/StateMachine" index="0" node_paths=PackedStringArray("Actor")]
+Actor = NodePath("../../../Player")
+
+[node name="Locked" parent="CameraController/StateMachine" index="1" node_paths=PackedStringArray("Actor")]
+Actor = NodePath("../../../Player")
+
 [node name="TargetLockController" type="Area3D" parent="." node_paths=PackedStringArray("Actor")]
 collision_mask = 3
 script = ExtResource("6_3y1my")
@@ -119,3 +125,5 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.07871, 1.0849, -2.63
 
 [node name="EnemyBig" parent="." instance=ExtResource("5_yl8hi")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -7.53291, 11.1963, -6.903)
+
+[editable path="CameraController"]
