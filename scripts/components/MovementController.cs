@@ -15,7 +15,7 @@ public partial class MovementController : Node {
 	public int JumpHeight { get; set; } = 1; //meter
 
 	// Functional Variables
-	public int ActualSpeed { get; set; }
+	public float ActualSpeed { get; set; }
 	public float Gravity { get; set; }
 	public float JumpSpeed { get; set; }
 	public Vector3 Direction { get; set; } = Vector3.Zero;

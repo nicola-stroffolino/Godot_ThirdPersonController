@@ -78,7 +78,7 @@ material_override = SubResource("StandardMaterial3D_oe4pp")
 use_collision = true
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.50726, 5.59888, -6.9697)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.50726, -0.371792, -6.9697)
 material_override = SubResource("StandardMaterial3D_oe4pp")
 use_collision = true
 size = Vector3(1.98547, 10.1978, 2.17175)
@@ -124,6 +124,6 @@ transform = Transform3D(0.938722, 0, -0.344676, 0, 1, 0, 0.344676, 0, 0.938722, 
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.07871, 1.0849, -2.6353)
 
 [node name="EnemyBig" parent="." instance=ExtResource("5_yl8hi")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -7.53291, 11.1963, -6.903)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -7.53291, 5.23214, -6.903)
 
 [editable path="CameraController"]

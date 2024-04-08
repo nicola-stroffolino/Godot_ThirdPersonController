@@ -10289,7 +10289,7 @@ AnimationTree = NodePath("AnimationTree")
 AnimationPlayer = NodePath("AnimationPlayer")
 
 [node name="LockMarkerAttachment" parent="." instance=ExtResource("2_yu4dr")]
-transform = Transform3D(-0.997822, 0.0509321, 0.0419188, 0.0492491, 0.997975, -0.0402492, -0.0438839, -0.038097, -0.99831, -0.00618458, 1.3384, 0.0429252)
+transform = Transform3D(0.997822, -0.0509321, -0.0419189, 0.049249, 0.997975, -0.0402489, 0.043884, 0.0380968, 0.99831, 0.00618462, 1.3384, -0.0429253)
 bone_name = "UpperChest"
 bone_idx = 3
 use_external_skeleton = true
