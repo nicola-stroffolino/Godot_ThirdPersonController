@@ -34,7 +34,7 @@ public partial class Player : GameEntity3D {
 			var o = Mathf.RadToDeg(FacingAngle);
 
 			var angleDifference = Mathf.Abs(n - o);
-			if (angleDifference > 180) angleDifference = 360 - angleDifference;
+			if (angleDifference > 180) angleDifference = 360 - angleDifference;	
 			
 			// if (n != o) GD.Print($"New: {n} - Old: {o} - Result: {angleDifference}");
 

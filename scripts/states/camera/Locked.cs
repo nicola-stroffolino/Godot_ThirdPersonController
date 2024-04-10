@@ -3,7 +3,7 @@ using System;
 
 public partial class Locked : CameraState {
 	public override State StateProcess(float delta) {
-		var lookingDirection = CameraController.GlobalPosition.DirectionTo(Actor.LockedTarget.GlobalPosition);
+		var lookingDirection = CameraController.GlobalPosition.DirectionTo(LockController.Target.GlobalPosition);
 
 		float newHCamRotation = Mathf.Atan2(-lookingDirection.X, -lookingDirection.Z);
 		CameraController.HCamRotation = Mathf.Wrap(

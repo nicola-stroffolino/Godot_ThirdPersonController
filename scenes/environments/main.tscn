@@ -95,7 +95,7 @@ CameraController = NodePath("../CameraController")
 
 [node name="CameraController" parent="." node_paths=PackedStringArray("Actor") instance=ExtResource("5_f2452")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-Actor = NodePath("../Player")
+Actor = NodePath("../EnemyBig")
 
 [node name="Free" parent="CameraController/StateMachine" index="0" node_paths=PackedStringArray("Actor")]
 Actor = NodePath("../../../Player")

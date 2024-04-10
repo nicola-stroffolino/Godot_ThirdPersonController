@@ -18,8 +18,8 @@ public partial class Free : CameraState {
 			CameraController.HCamRotation -= motion.Relative.X * CameraController.HSensitivity * Mathf.DegToRad(1);
 			CameraController.VCamRotation -= motion.Relative.Y * CameraController.VSensitivity * Mathf.DegToRad(1);
 		} 
-
-		if (@event.IsActionPressed("lock_to_target") && Actor.LockedTarget is not null) return GetState<Locked>();
+	
+		if (@event.IsActionPressed("lock_to_target") && LockController.Target is not null) return GetState<Locked>();
  
 		return null;
 	}

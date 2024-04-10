@@ -8,10 +8,13 @@ public partial class State : Node {
 	// [Signal]
 	// public delegate void TransitionedEventHandler();
 	[Export]
-	public GameEntity3D Actor { get; set; }
-	[Export]
 	private Array<State> _states;
-	public Tween Tween { get; set; } = null;
+	public StateMachine StateMachine { get; set; }
+
+	public override void _Ready() {
+		StateMachine = (StateMachine)GetParent();
+	}
+
 	protected private State GetState<State>() => _states.OfType<State>().FirstOrDefault();
 
 	public virtual void Enter() {}
