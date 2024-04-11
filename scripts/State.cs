@@ -11,10 +11,6 @@ public partial class State : Node {
 	private Array<State> _states;
 	public StateMachine StateMachine { get; set; }
 
-	public override void _Ready() {
-		StateMachine = (StateMachine)GetParent();
-	}
-
 	protected private State GetState<State>() => _states.OfType<State>().FirstOrDefault();
 
 	public virtual void Enter() {}

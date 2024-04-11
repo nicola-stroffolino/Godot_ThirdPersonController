@@ -6,6 +6,8 @@ public partial class CameraController : Node3D {
 	[Export]
 	public GameEntity3D Actor { get; set; }
 	[Export]
+	public TargetLockController LockController { get; set; }
+	[Export]
 	public float HSensitivity { get; set; } = .1f;
 	[Export]
 	public float VSensitivity { get; set; } = .1f;

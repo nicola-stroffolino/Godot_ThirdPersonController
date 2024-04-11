@@ -8,7 +8,7 @@ public partial class Free : CameraState {
 	}
 
 	public override State StateProcess(float delta) {
-		CameraController.HCamRotation = CameraController.HCamRotation - Math.Sign(Actor.Movement.Direction.X) * delta; // times some parameter to increase sensitivity
+		//CameraController.HCamRotation = CameraController.HCamRotation - Math.Sign(Actor.Movement.Direction.X) * delta; // times some parameter to increase sensitivity
 
 		return null;
 	}

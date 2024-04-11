@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c4004cd4ct216"]
 
 [ext_resource type="Script" path="res://scripts/components/CameraController.cs" id="1_vmf7e"]
-[ext_resource type="Script" path="res://scripts/StateMachine.cs" id="2_nenro"]
+[ext_resource type="Script" path="res://scripts/CameraStateMachine.cs" id="2_ne2a3"]
 [ext_resource type="Script" path="res://scripts/states/camera/Free.cs" id="3_2v86b"]
 [ext_resource type="Script" path="res://scripts/states/camera/Locked.cs" id="4_uxp71"]
 
@@ -22,21 +22,18 @@ shape = SubResource("SphereShape3D_h7ogm")
 spring_length = 4.0
 
 [node name="Camera3D" type="Camera3D" parent="Horizontal/Vertical/SpringArm3D"]
+unique_name_in_owner = true
 process_mode = 1
 transform = Transform3D(1, 0, -7.10543e-15, 0, 1, 0, 7.10543e-15, 0, 1, 4.37113e-07, 0, 4)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
-script = ExtResource("2_nenro")
+script = ExtResource("2_ne2a3")
 InitialState = NodePath("Free")
 
-[node name="Free" type="Node" parent="StateMachine" node_paths=PackedStringArray("CameraController", "Camera", "_states")]
+[node name="Free" type="Node" parent="StateMachine" node_paths=PackedStringArray("_states")]
 script = ExtResource("3_2v86b")
-CameraController = NodePath("../..")
-Camera = NodePath("../../Horizontal/Vertical/SpringArm3D/Camera3D")
 _states = [NodePath("../Locked")]
 
-[node name="Locked" type="Node" parent="StateMachine" node_paths=PackedStringArray("CameraController", "Camera", "_states")]
+[node name="Locked" type="Node" parent="StateMachine" node_paths=PackedStringArray("_states")]
 script = ExtResource("4_uxp71")
-CameraController = NodePath("../..")
-Camera = NodePath("../../Horizontal/Vertical/SpringArm3D/Camera3D")
 _states = [NodePath("../Free")]

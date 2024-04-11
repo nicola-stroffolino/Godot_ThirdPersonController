@@ -93,15 +93,10 @@ size = Vector3(1, 2, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 CameraController = NodePath("../CameraController")
 
-[node name="CameraController" parent="." node_paths=PackedStringArray("Actor") instance=ExtResource("5_f2452")]
+[node name="CameraController" parent="." node_paths=PackedStringArray("Actor", "LockController") instance=ExtResource("5_f2452")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-Actor = NodePath("../EnemyBig")
-
-[node name="Free" parent="CameraController/StateMachine" index="0" node_paths=PackedStringArray("Actor")]
-Actor = NodePath("../../../Player")
-
-[node name="Locked" parent="CameraController/StateMachine" index="1" node_paths=PackedStringArray("Actor")]
-Actor = NodePath("../../../Player")
+Actor = NodePath("../Player")
+LockController = NodePath("../TargetLockController")
 
 [node name="TargetLockController" type="Area3D" parent="." node_paths=PackedStringArray("Actor")]
 collision_mask = 3
@@ -125,5 +120,3 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -5.07871, 1.0849, -2.63
 
 [node name="EnemyBig" parent="." instance=ExtResource("5_yl8hi")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -7.53291, 5.23214, -6.903)
-
-[editable path="CameraController"]
