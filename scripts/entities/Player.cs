@@ -3,8 +3,7 @@ using System;
 using System.Reflection.Metadata;
 
 public partial class Player : GameEntity3D {
-	[Export]
-	public CameraController CameraController { get; private set; }
+	public CameraController CameraController { get; set; }
 
 	public override void _Ready(){
 		FacingAngle = Rotation.Y;

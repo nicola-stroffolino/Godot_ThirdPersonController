@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
+[GlobalClass]
 public partial class EntityState : State {
-	[Export]
 	public GameEntity3D Actor { get; set; }
 }

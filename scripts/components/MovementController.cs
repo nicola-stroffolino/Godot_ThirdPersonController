@@ -4,8 +4,6 @@ using Godot;
 [GlobalClass]
 public partial class MovementController : Node {
 	[Export]
-	public GameEntity3D Actor { get; private set; }
-	[Export]
 	public int WalkingSpeed { get; set; } = 2; //km/h
 	[Export]
 	public int RunningSpeed { get; set; } = 6; //km/h
@@ -13,6 +11,8 @@ public partial class MovementController : Node {
 	public float TimeToJumpPeak { get; set; } = .4f; //second
 	[Export]
 	public int JumpHeight { get; set; } = 1; //meter
+
+	public GameEntity3D Actor { get; set; }
 
 	// Functional Variables
 	public float ActualSpeed { get; set; }
@@ -23,6 +23,8 @@ public partial class MovementController : Node {
 	public Vector3 Velocity { get; set; } = Vector3.Zero;
 
 	public override void _Ready() {
+		Actor = GetParent() as GameEntity3D;
+
 		Gravity = 2 * JumpHeight / (TimeToJumpPeak * TimeToJumpPeak); //m/s^2;
 		JumpSpeed = Gravity * TimeToJumpPeak; //m/s
 	}

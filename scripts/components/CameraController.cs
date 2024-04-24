@@ -20,6 +20,8 @@ public partial class CameraController : Node3D {
 	public readonly float VCam_Max = Mathf.DegToRad(75f);
 
 	public override void _Ready() {
+		if (Actor is not null && Actor is Player p) p.CameraController = this;
+		
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		HCamRotation = Actor.Rotation.Y + Mathf.Pi;
 		VCamRotation = Actor.Rotation.X;
@@ -35,9 +37,4 @@ public partial class CameraController : Node3D {
 		};
 		if (Attached) GlobalPosition = Actor.GlobalPosition; 
 	}
-
-	// public float GetHRot() => Mathf.DegToRad(HCamRotation);
-	// public float GetVRot() => Mathf.DegToRad(VCamRotation);
-
-	
 }

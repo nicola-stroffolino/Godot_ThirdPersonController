@@ -89,9 +89,8 @@ material_override = SubResource("StandardMaterial3D_oe4pp")
 use_collision = true
 size = Vector3(1, 2, 1)
 
-[node name="Player" parent="." node_paths=PackedStringArray("CameraController") instance=ExtResource("3_uo23w")]
+[node name="Player" parent="." instance=ExtResource("3_uo23w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-CameraController = NodePath("../CameraController")
 
 [node name="CameraController" parent="." node_paths=PackedStringArray("Actor", "LockController") instance=ExtResource("5_f2452")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
