@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public partial class Locked : CameraState {
-	public override State StateProcess(float delta) {
+	public override State StatePhysicsProcess(float delta) {
 		var lookingDirection = CameraController.GlobalPosition.DirectionTo(LockController.Target.GlobalPosition);
 
 		float newHCamRotation = Mathf.Atan2(-lookingDirection.X, -lookingDirection.Z);
